@@ -49,16 +49,18 @@ markdown_extensions:
 
 # Contents
 nav:
-    - home: index.md
-    - web: 
-      - home: web/index.md
-    - pwn: 
-      - home: pwn/index.md
-    - crypto:
-      - home: crypto/index.md
-    - reverse:
-      - home: reverse/index.md
-    - misc:
-      - home: misc/index.md
-    - backup:
-      - gitpage采坑: backup/gitpage_fuck.md
+- home: index.md
+- web:
+  - home: web/index.md
+- pwn:
+  - home: pwn/index.md
+  - VMEscape:
+    - BabyQemu: pwn/VMEscape/BabyQemu.md
+- crypto:
+  - home: crypto/index.md
+- reverse:
+  - home: reverse/index.md
+- misc:
+  - home: misc/index.md
+- backup:
+  - "gitpage\u91C7\u5751": backup/gitpage_fuck.md
