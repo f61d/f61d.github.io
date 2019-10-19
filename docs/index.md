@@ -2,4 +2,4 @@
 
 **challenges**: [https://github.com/f61d/challenges](https://github.com/f61d/challenges)
 
-![](/assets/images/b1b1.png)
+![](/assets/images/61d.png)

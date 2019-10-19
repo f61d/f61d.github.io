@@ -50,7 +50,15 @@ markdown_extensions:
 # Contents
 nav:
     - home: index.md
-    - ctf writeups:
-        - linux内核基础: kernel/linux_kernel_base.md
+    - web: 
+      - home: web/index.md
+    - pwn: 
+      - home: pwn/index.md
+    - crypto:
+      - home: crypto/index.md
+    - reverse:
+      - home: reverse/index.md
+    - misc:
+      - home: misc/index.md
     - backup:
-        - gitpage采坑: backup/gitpage_fuck.md
+      - gitpage采坑: backup/gitpage_fuck.md
