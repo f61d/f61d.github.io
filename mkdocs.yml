@@ -66,5 +66,7 @@ nav:
   - home: misc/index.md
   - blockchain:
     - RoarCTF2019_CoinFlip: misc/blockchain/RoarCTF2019_CoinFlip.md
+  - forensic:
+    - Traffic_Analysis: misc/forensic/Traffic_Analysis.md
 - backup:
   - "gitpage\u91C7\u5751": backup/gitpage_fuck.md
