@@ -11,6 +11,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://f61d.github.io/web/SQLi/RootersCTF-Babyweb/</loc>
+     <lastmod>2019-10-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://f61d.github.io/pwn/</loc>
      <lastmod>2019-10-20</lastmod>
      <changefreq>daily</changefreq>
