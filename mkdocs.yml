@@ -52,6 +52,8 @@ nav:
 - home: index.md
 - web:
   - home: web/index.md
+  - SQLi:
+    - RootersCTF-Babyweb: web/SQLi/RootersCTF-Babyweb.md
 - pwn:
   - home: pwn/index.md
   - VMEscape:
