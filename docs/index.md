@@ -24,6 +24,8 @@ https://f61d.github.io/web/
 
 https://f61d.github.io/pwn/
   
+> ```LazyHouse``` by **```F1r```** @ 2019-10-22 
+
 > ```BabyQemu``` by **```F1r```** @ 2019-10-19 
 
 
