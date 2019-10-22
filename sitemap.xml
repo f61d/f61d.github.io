@@ -31,7 +31,7 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://f61d.github.io/pwn/VMEscape/BabyQemu/</loc>
+     <loc>https://f61d.github.io/pwn/VMEscape/scvm/</loc>
      <lastmod>2019-10-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -42,6 +42,11 @@
     </url>
     <url>
      <loc>https://f61d.github.io/crypto/</loc>
+     <lastmod>2019-10-22</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://f61d.github.io/crypto/RSA/roarctf_rsa/</loc>
      <lastmod>2019-10-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
