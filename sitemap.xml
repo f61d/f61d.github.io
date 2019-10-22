@@ -36,6 +36,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://f61d.github.io/pwn/VMEscape/BabyQemu/</loc>
+     <lastmod>2019-10-22</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://f61d.github.io/pwn/Heap/LazyHouse/</loc>
      <lastmod>2019-10-22</lastmod>
      <changefreq>daily</changefreq>
