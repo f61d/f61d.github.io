@@ -28,12 +28,16 @@ https://f61d.github.io/pwn/
 
 > ```BabyQemu``` by **```F1r```** @ 2019-10-19 
 
+> ```scvm``` by **```F1r```** @ 2019-10-22 
+
 
 
 ### crypto
 
 https://f61d.github.io/crypto/
   
+> ```roarctf_rsa``` by **```b1ind```** @ 2019-10-22 
+
 
 
 ### reverse
