@@ -58,6 +58,8 @@ nav:
     - WHUCTF-EasyPHP: web/PHP/WHUCTF-EasyPHP.md
   - SQLi:
     - RootersCTF-Babyweb: web/SQLi/RootersCTF-Babyweb.md
+  - Session Bypass:
+    - hackergame2019-django: web/Session Bypass/hackergame2019-django.md
 - pwn:
   - home: pwn/index.md
   - Heap:
