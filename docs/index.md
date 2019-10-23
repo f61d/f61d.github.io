@@ -16,7 +16,7 @@ https://f61d.github.io/web/
 
 > ```WHUCTF-EasyPHP``` by **```Flash1998```** @ 2019-10-21 
 
-> ```hackergame2019-django``` by **``````** @  
+> ```hackergame2019-django``` by **```CallMeCro```** @ 2019-10-23 
 
 > ```RootersCTF-Babyweb``` by **```GG BON```** @ 2019-10-20 
 
