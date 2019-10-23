@@ -62,6 +62,7 @@ nav:
   - home: pwn/index.md
   - Heap:
     - LazyHouse: pwn/Heap/LazyHouse.md
+    - 4-ReeHY-main: pwn/Heap/4-ReeHY-main.md
   - VMEscape:
     - BabyQemu: pwn/VMEscape/BabyQemu.md
     - scvm: pwn/VMEscape/scvm.md
@@ -75,6 +76,7 @@ nav:
   - home: misc/index.md
   - blockchain:
     - RoarCTF2019_CoinFlip: misc/blockchain/RoarCTF2019_CoinFlip.md
+    - Hackergame2019_JCBank: misc/blockchain/Hackergame2019_JCBank.md
   - forensic:
     - Traffic_Analysis: misc/forensic/Traffic_Analysis.md
 - backup:

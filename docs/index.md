@@ -24,6 +24,8 @@ https://f61d.github.io/web/
 
 https://f61d.github.io/pwn/
   
+> ```4-ReeHY-main``` by **```b0m13```** @ 2019-10-22 
+
 > ```LazyHouse``` by **```F1r```** @ 2019-10-22 
 
 > ```BabyQemu``` by **```F1r```** @ 2019-10-19 
@@ -50,6 +52,8 @@ https://f61d.github.io/reverse/
 
 https://f61d.github.io/misc/
   
+> ```Hackergame2019_JCBank``` by **```hitcxy```** @ 2019-10-22 
+
 > ```RoarCTF2019_CoinFlip``` by **```hitcxy```** @ 2019-10-20 
 
 > ```Traffic_Analysis``` by **```F1r```** @ 2019-10-20 
