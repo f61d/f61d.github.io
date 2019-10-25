@@ -60,6 +60,8 @@ nav:
     - RootersCTF-Babyweb: web/SQLi/RootersCTF-Babyweb.md
   - Session Bypass:
     - hackergame2019-django: web/Session Bypass/hackergame2019-django.md
+  - FileUpload:
+    - RoarCTF-simple_upload: web/FileUpload/RoarCTF-simple_upload.md
 - pwn:
   - home: pwn/index.md
   - Heap:
@@ -68,10 +70,14 @@ nav:
   - VMEscape:
     - BabyQemu: pwn/VMEscape/BabyQemu.md
     - scvm: pwn/VMEscape/scvm.md
+  - Windows:
+    - BabyStack: pwn/Windows/BabyStack.md
 - crypto:
   - home: crypto/index.md
   - RSA:
     - roarctf_rsa: crypto/RSA/roarctf_rsa.md
+  - Stream_Cipher:
+    - Hacklu2019_COBOL_OTP: crypto/Stream_Cipher/Hacklu2019_COBOL_OTP.md
 - reverse:
   - home: reverse/index.md
 - misc:

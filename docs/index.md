@@ -14,6 +14,8 @@ https://f61d.github.io/web/
   
 > ```hitcon2019-virtual-public-network``` by **```CallMeCro```** @ 2019-10-20 
 
+> ```RoarCTF-simple_upload``` by **```GG BON```** @ 2019-10-25 
+
 > ```WHUCTF-EasyPHP``` by **```Flash1998```** @ 2019-10-21 
 
 > ```hackergame2019-django``` by **```CallMeCro```** @ 2019-10-23 
@@ -34,6 +36,8 @@ https://f61d.github.io/pwn/
 
 > ```scvm``` by **```F1r```** @ 2019-10-22 
 
+> ```BabyStack``` by **```sesefad0u```** @ 2019-10-25 
+
 
 
 ### crypto
@@ -41,6 +45,8 @@ https://f61d.github.io/pwn/
 https://f61d.github.io/crypto/
   
 > ```roarctf_rsa``` by **```b1ind```** @ 2019-10-22 
+
+> ```Hacklu2019_COBOL_OTP``` by **```CallMeCro```** @ 2019-10-24 
 
 
 
