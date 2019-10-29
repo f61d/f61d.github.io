@@ -56,12 +56,15 @@ nav:
     - hitcon2019-virtual-public-network: web/CommandInjection/hitcon2019-virtual-public-network.md
   - PHP:
     - WHUCTF-EasyPHP: web/PHP/WHUCTF-EasyPHP.md
+    - ichunqiuCTF_easyphp: web/PHP/ichunqiuCTF_easyphp.md
   - SQLi:
     - RootersCTF-Babyweb: web/SQLi/RootersCTF-Babyweb.md
   - Session Bypass:
     - hackergame2019-django: web/Session Bypass/hackergame2019-django.md
   - FileUpload:
     - RoarCTF-simple_upload: web/FileUpload/RoarCTF-simple_upload.md
+  - JavaScript_prototype_chain_pollution:
+    - car_repair: web/JavaScript_prototype_chain_pollution/car_repair.md
 - pwn:
   - home: pwn/index.md
   - Heap:
@@ -72,6 +75,9 @@ nav:
     - scvm: pwn/VMEscape/scvm.md
   - Windows:
     - BabyStack: pwn/Windows/BabyStack.md
+  - Stackoverflow:
+    - brop: pwn/Stackoverflow/brop.md
+    - level5: pwn/Stackoverflow/level5.md
 - crypto:
   - home: crypto/index.md
   - RSA:

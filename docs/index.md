@@ -16,6 +16,10 @@ https://f61d.github.io/web/
 
 > ```RoarCTF-simple_upload``` by **```GG BON```** @ 2019-10-25 
 
+> ```car_repair``` by **```CallMeCro```** @ 2019-10-28 
+
+> ```ichunqiuCTF_easyphp``` by **```Flash1998```** @ 2019-10-29 
+
 > ```WHUCTF-EasyPHP``` by **```Flash1998```** @ 2019-10-21 
 
 > ```hackergame2019-django``` by **```CallMeCro```** @ 2019-10-23 
@@ -31,6 +35,10 @@ https://f61d.github.io/pwn/
 > ```4-ReeHY-main``` by **```b0m13```** @ 2019-10-23 
 
 > ```LazyHouse``` by **```F1r```** @ 2019-10-22 
+
+> ```brop``` by **```MrBeanc```** @ 2019-10-28 
+
+> ```level5``` by **```MrBeanc```** @ 2019-10-28 
 
 > ```BabyQemu``` by **```F1r```** @ 2019-10-19 
 
