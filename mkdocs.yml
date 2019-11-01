@@ -57,6 +57,7 @@ nav:
   - PHP:
     - WHUCTF-EasyPHP: web/PHP/WHUCTF-EasyPHP.md
     - ichunqiuCTF_easyphp: web/PHP/ichunqiuCTF_easyphp.md
+    - ictf_best_language1: web/PHP/ictf_best_language1.md
   - SQLi:
     - RootersCTF-Babyweb: web/SQLi/RootersCTF-Babyweb.md
   - Session Bypass:
@@ -78,10 +79,13 @@ nav:
   - Stackoverflow:
     - brop: pwn/Stackoverflow/brop.md
     - level5: pwn/Stackoverflow/level5.md
+    - 100levels: pwn/Stackoverflow/100levels.md
+    - Story: pwn/Stackoverflow/Story.md
 - crypto:
   - home: crypto/index.md
   - RSA:
     - roarctf_rsa: crypto/RSA/roarctf_rsa.md
+    - roXen: crypto/RSA/roXen.md
   - Stream_Cipher:
     - Hacklu2019_COBOL_OTP: crypto/Stream_Cipher/Hacklu2019_COBOL_OTP.md
 - reverse:

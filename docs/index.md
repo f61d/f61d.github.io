@@ -20,6 +20,8 @@ https://f61d.github.io/web/
 
 > ```ichunqiuCTF_easyphp``` by **```Flash1998```** @ 2019-10-29 
 
+> ```ictf_best_language1``` by **```b1ind```** @ 2019-10-30 
+
 > ```WHUCTF-EasyPHP``` by **```Flash1998```** @ 2019-10-21 
 
 > ```hackergame2019-django``` by **```CallMeCro```** @ 2019-10-23 
@@ -36,9 +38,13 @@ https://f61d.github.io/pwn/
 
 > ```LazyHouse``` by **```F1r```** @ 2019-10-22 
 
+> ```100levels``` by **```b0m13```** @ 2019-10-30 
+
 > ```brop``` by **```MrBeanc```** @ 2019-10-28 
 
 > ```level5``` by **```MrBeanc```** @ 2019-10-28 
+
+> ```Story``` by **```sesefad0u```** @ 2019-10-31 
 
 > ```BabyQemu``` by **```F1r```** @ 2019-10-19 
 
@@ -53,6 +59,8 @@ https://f61d.github.io/pwn/
 https://f61d.github.io/crypto/
   
 > ```roarctf_rsa``` by **```b1ind```** @ 2019-10-22 
+
+> ```roXen``` by **```sssqqq233```** @ 2019-10-31 
 
 > ```Hacklu2019_COBOL_OTP``` by **```CallMeCro```** @ 2019-10-24 
 
